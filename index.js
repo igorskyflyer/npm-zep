@@ -12,10 +12,8 @@ class Zep {
   constructor(callback, time) {
     /**
      * @private
-     * @type {NodeJS.Timeout}
+     * @type {NodeJS.Timeout|number}
      */
-    // @ts-ignore
-
     this._timer = 0
     /** @private */
     this._shouldCancel = false
@@ -187,7 +185,6 @@ class Zep {
             this._executionCount++
             clearTimeout(this._timer)
             this._isWaiting = false
-            // @ts-ignore
             this._timer = 0
             this._isRunning = false
 
