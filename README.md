@@ -54,11 +54,15 @@ const zep = new Zep(myFunction, 1500)
 
  <br>
 
-`abort(): void` - aborts the execution, stops Zep completely and - if applicable - the current running Timer without waiting for it to finish its execution. See also [`cancel()`]().
+<a id="zep-abort"></a>
+
+`abort(): void` - aborts the execution, stops Zep completely and - if applicable - the current running Timer without waiting for it to finish its execution. See also [`Zep.cancel()`](#zep-cancel).
 
 <br>
 
-`cancel(): void` - stops the execution but **NOT** the current running Timer - if applicable. See also [`abort()`]().
+<a id="zep-cancel"></a>
+
+`cancel(): void` - stops the execution but **NOT** the current running Timer - if applicable. See also [`Zep.abort()`](#zep-abort).
 
 <br>
 
@@ -93,19 +97,19 @@ const zep = new Zep(myFunction, 1500)
 
 <br>
 
-`wasCancelled: boolean` - indicates whether the execution of `Zep.run()` was cancelled. Execution can be cancelled by calling [`Zep.cancel()`]().
+`wasCancelled: boolean` - indicates whether the execution of `Zep.run()` was cancelled. Execution can be cancelled by calling [`Zep.cancel()`](#zep-cancel).
 
 <br>
 
-`wasAborted: boolean` - indicates whether the execution of `Zep.run()` was aborted. Execution can be aborted by calling [`Zep.abort()`]().
+`wasAborted: boolean` - indicates whether the execution of `Zep.run()` was aborted. Execution can be aborted by calling [`Zep.abort()`](#zep-abort).
 
 <br>
 
-`onCancelled: Function` - a callback to call when the execution of `Zep.run()` has been cancelled. See also, [`Zep.cancel()`]().
+`onCancelled: Function` - a callback to call when the execution of `Zep.run()` has been cancelled. See also, [`Zep.cancel()`](#zep-cancel).
 
 <br>
 
-`onAborted: Function` - a callback to call when the execution of `Zep.run()` has been aborted. See also, [`Zep.abort()`]().
+`onAborted: Function` - a callback to call when the execution of `Zep.run()` has been aborted. See also, [`Zep.abort()`](#zep-abort).
 
 <br>
 
