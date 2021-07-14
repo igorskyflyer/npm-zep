@@ -10,7 +10,7 @@
 	"types": "./dist/index.d.ts",
 	"scripts": {
 		"test": "mocha",
-		"party": "npm test && npm publish --access public"
+		"party": "npm test && tsc && npm publish --access public"
 	},
 	"repository": {
 		"type": "git",
