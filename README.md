@@ -126,7 +126,8 @@ const picker = vscode.window.createQuickPick()
 	 zep.run(e)
  }
  // by using Zep we can wait for the user to finish their input
- // if they haven't typed a single letter = the onDidChangeValue wasn't triggered for 1500ms (1.5s) we assume they finished typing
+ // if they haven't typed a single letter = the onDidChangeValue wasn't
+ // triggered for 1500ms (1.5s) we assume they finished typing
 
 // more code
 ```
