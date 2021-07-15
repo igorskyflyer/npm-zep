@@ -1,3 +1,5 @@
+// @ts-check
+
 /**
  * @callback ZepCallback
  * @param {...*} args
@@ -12,39 +14,79 @@ class Zep {
   constructor(callback, time) {
     /**
      * @private
-     * @type {NodeJS.Timeout|number}
+     * @type {NodeJS.Timeout}
      */
+    // @ts-ignore
     this._timer = 0
-    /** @private */
+    /**
+     * @private
+     *  @type {boolean}
+     */
     this._shouldCancel = false
-    /** @private */
+    /**
+     * @private
+     *  @type {boolean}
+     */
     this._shouldAbort = false
-    /** @private */
-    this._isRunning = false
-    /** @private */
-    this._callback = callback
-    /** @private */
-    this._time = time
-    /** @private */
-    this._timersCount = 0
-    /** @private */
-    this._executionCount = 0
-    /** @private */
-    this._isWaiting = false
-    /** @private */
-    this._isRunning = false
-    /** @private */
+    /**
+     * @private
+     *  @type {number}
+     */
     this._calls = 0
-    /** @private */
-    this._resolvedCalls = -1
-  }
-
-  /**
-   * Returns the number of created Timers.
-   * @returns {number}
-   */
-  get timersCount() {
-    return this._timersCount
+    /**
+     * @private
+     *  @type {IArguments|undefined}
+     */
+    this._args = undefined
+    /**
+     * @private
+     *  @type {boolean}
+     */
+    this._isRunning = false
+    /**
+     * @private
+     *  @type {Function}
+     */
+    this._callback = callback
+    /**
+     * @private
+     *  @type {number}
+     */
+    this._time = time
+    /**
+     * @private
+     *  @type {number}
+     */
+    this._executionCount = 0
+    /**
+     * @private
+     *  @type {boolean}
+     */
+    this._isWaiting = false
+    /**
+     * @private
+     *  @type {boolean}
+     */
+    this._isRunning = false
+    /**
+     * @private
+     *  @type {boolean}
+     */
+    this._wasCancelled = false
+    /**
+     * @private
+     *  @type {boolean}
+     */
+    this._wasAborted = false
+    /**
+     * @private
+     * @returns {void}
+     */
+    this._deleteTimer = () => {
+      clearInterval(this._timer)
+      // @ts-ignore
+      this._timer = 0
+    }
   }
 
   /**
@@ -76,7 +118,7 @@ class Zep {
    * @returns {boolean}
    */
   get wasCancelled() {
-    return this._shouldCancel
+    return this._wasCancelled
   }
 
   /**
@@ -84,7 +126,7 @@ class Zep {
    * @returns {boolean}
    */
   get wasAborted() {
-    return this._shouldAbort
+    return this._wasAborted
   }
 
   /**
@@ -111,8 +153,41 @@ class Zep {
   }
 
   /**
+   * A callback to call before Zep.run().
+   * @param {Function} callback
+   */
+  set onBeforeRun(callback) {
+    /**
+     * @private
+     */
+    this._onBeforeRun = callback
+  }
+
+  /**
+   * A callback to call before Zep.run().
+   * @param {Function} callback
+   */
+  set onAfterRun(callback) {
+    /**
+     * @private
+     */
+    this._onAfterRun = callback
+  }
+
+  /**
+   * A callback to call when the execution of Zep.run() has been completed - no more calls to the Zep.run() where provided in the defined time limit.
+   * @param {Function} callback
+   */
+  set onCompleted(callback) {
+    /**
+     * @private
+     */
+    this._onCompleted = callback
+  }
+
+  /**
    * Stops the execution but NOT the current running Timer - if applicable.
-   * @see {@link abort}
+   * @see abort
    * @returns {void}
    */
   cancel() {
@@ -121,7 +196,7 @@ class Zep {
 
   /**
    * Aborts the execution, stops Zep completely and - if applicable - the current running Timer without waiting for it to finish its execution.
-   * @see {@link cancel}
+   * @see cancel
    * @returns {void}
    */
   abort() {
@@ -134,7 +209,7 @@ class Zep {
    */
   writeStats() {
     console.log(
-      `[Zep]: calls: ${this._calls}, timers created: ${this._timersCount}, callback executions: ${this._executionCount}.`
+      `[Zep] invoked: ${this._calls}, callback executions: ${this._executionCount}.`
     )
   }
 
@@ -149,54 +224,76 @@ class Zep {
     }
 
     this._calls++
+    this._args = arguments
+
+    this._wasCancelled = false
+    this._wasAborted = false
 
     if (!this._time) {
       this._callback.apply(this, arguments)
       this._executionCount++
     } else {
-      if (!this._isWaiting) {
-        if (this._shouldAbort) {
-          clearTimeout(this._timer)
+      this._isWaiting = true
+      this._isRunning = true
 
-          if (typeof this._onAborted === 'function') {
-            this._onAborted()
+      if (!this._timer) {
+        this._timer = setInterval(() => {
+          if (this._shouldAbort) {
+            this._deleteTimer()
+
+            this._isRunning = false
+            this._shouldAbort = false
+            this._wasAborted = true
+
+            if (typeof this._onAborted === 'function') {
+              this._onAborted()
+            }
+
+            // don't let the execution continue!
+            return
           }
 
-          return
-        }
+          if (!this._isRunning) {
+            this._deleteTimer()
 
-        if (!this._timer) {
-          this._isRunning = true
-          this._isWaiting = true
-          this._timersCount++
-
-          this._timer = setTimeout(() => {
-            if (this._shouldAbort) {
-              clearTimeout(this._timer)
-
-              if (typeof this._onAborted === 'function') {
-                this._onAborted()
-              }
-
-              return
-            }
-
-            this._callback.apply(this, arguments)
-            this._executionCount++
-            clearTimeout(this._timer)
             this._isWaiting = false
-            this._timer = 0
             this._isRunning = false
 
-            if (this._shouldCancel) {
-              if (typeof this._onCancelled === 'function') {
-                this._onCancelled()
-              }
-
-              return
+            if (
+              !this._wasCancelled &&
+              typeof this._onCompleted === 'function'
+            ) {
+              this._onCompleted()
             }
-          }, this._time)
-        }
+
+            return
+          }
+
+          if (this._shouldCancel && typeof this._onCancelled === 'function') {
+            // this._deleteTimer()
+
+            this._isRunning = false
+            this._shouldCancel = false
+            this._wasCancelled = true
+
+            this._onCancelled()
+          }
+
+          if (typeof this._onBeforeRun === 'function') {
+            this._onBeforeRun()
+          }
+
+          this._callback.apply(this, this._args)
+
+          if (typeof this._onAfterRun === 'function') {
+            this._onAfterRun()
+          }
+
+          this._executionCount++
+
+          this._isWaiting = false
+          this._isRunning = false
+        }, this._time)
       }
     }
   }
