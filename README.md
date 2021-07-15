@@ -4,9 +4,11 @@
 
 <br>
 
-🧠 `Zep` is an efficient debounce module. ⏰
+🧠 `Zep` is a zero-dependency, efficient debounce module. ⏰
 
-> Why `Zep`? Because `Zep` allows you to create a time-invoked callbacks but with _deferred_ execution! Each time `Zep` is called it will either create a new timer (provided by the JavaScript's built-in `setTimeout` function) or wait for a previously created timer to finish its execution = call its callback, so instead of creating dozens, even hundreds of timers in some cases, only a fraction of that number of timers will be created. Basically, it works like `setTimeout()` and `setInterval()` are combined. Some use cases, e.g. when you are processing user input but want to wait until they have finished typing or you are using a 3rd-party API that calls an event handler too often, you can throttle those calls or when your event handler does intensive computing and you want to minimize workload. It limits the rate at which a function/handler can be fired/triggered, thus increasing performance.
+> Why `Zep`? Because `Zep` allows you to create a time-invoked callbacks but with _deferred_ execution! `Zep` does debouncing in a **very efficient** manner by only creating 1 Timer\* - provided by `setInterval`. Some use cases are: when you are processing user input but want to wait until they have finished typing or you are using a 3rd-party API that calls an event handler too often - you can throttle those calls or when your event handler does intensive computing and you want to minimize workload. It limits the rate at which a function/handler can be fired/triggered, thus increasing performance/responsiveness of your product.
+
+<sub>\* other debounce functions/modules create dozens, even hundreds of Timers in order to provide the same functionality.</sub>
 
 <br>
 
@@ -72,18 +74,14 @@ const zep = new Zep(myFunction, 1500)
 
 `writeStats(): void` - writes `Zep` statistical information to the `console`, sample output,
 
-> ` [Zep]`: calls: 86, timers created: 15, callback executions: 15.
+> ` [Zep]`: invoked: 1000, callback executions: 210.
 
-☝ Means that the event was triggered **86** times but `Zep` debounced it and only executed its handler **15** times instead, the handler was called **~82.56%** less than without using it.
+☝ Means that the event was triggered **1000** times but `Zep` debounced it and only executed its handler **210** times instead, the handler was called **79%** less than without using it.
 
 <br>
 <br>
 
 **Properties**
-
-`timersCount: number` - returns the number of created Timers.
-
-<br>
 
 `executionCount: number` - returns the number of callback executions.
 
@@ -113,12 +111,28 @@ const zep = new Zep(myFunction, 1500)
 
 <br>
 
+`onBeforeRun: Function` - a callback to call before each call to your `callback`.
+
+<br>
+
+`onAfterRun: Function` - a callback to call after each call to your `callback`.
+
+<br>
+
+`onCompleted: Function` - a callback to call after `Zep` has finished running `===` no more calls to the `Zep.run()` in the given time-frame.
+
+<br>
+
 ### Example
 
 ```js
 const Zep = require('@igor.dvlpr/zep')
 
 
+// pass an arrow function
+const zep = new Zep((value, item) => {
+  // code to limit its execution rate
+}, 1500)
 
 // then pass Zep's run() method to the event instead the original function
 
