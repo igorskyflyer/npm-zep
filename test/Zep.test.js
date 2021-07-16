@@ -18,12 +18,10 @@ function simulate(handler, iterations, time, param = -1) {
 
 describe('🧪 Zep tests 🧪', () => {
   it('should be > 3', (done) => {
-    const handler = new Zep(() => {}, 200)
-
-    handler.onCompleted = () => {
+    const handler = new Zep(() => {}, 200).onCompleted((self) => {
       done()
-      chai.isAbove(handler.executionCount, 3)
-    }
+      chai.isAbove(self.executionCount, 3)
+    })
 
     simulate(handler, 10, 100)
   })
@@ -33,12 +31,10 @@ describe('🧪 Zep tests 🧪', () => {
 
     const handler = new Zep((value) => {
       test += value
-    }, 200)
-
-    handler.onCompleted = () => {
+    }, 200).onCompleted(() => {
       done()
       chai.isAbove(test, 5)
-    }
+    })
 
     simulate(handler, 10, 100, 5)
   })
