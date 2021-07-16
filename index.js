@@ -5,11 +5,16 @@
  * @param {...*} args
  */
 
+/**
+ * @callback ZepEventHandler
+ * @param {Zep} self
+ */
+
 class Zep {
   /**
    * Creates a new instance of Zep, this is where you should define your function/callback that will be debounced - when needed. If you don’t define the time parameter or time <= 0 your callback will be called immediately without ever being debounced. You can have as many arguments in your callback function as you want.
    * @param {ZepCallback} callback
-   * @param {number} [time=1000]
+   * @param {number} [time]
    */
   constructor(callback, time) {
     /**
@@ -131,58 +136,67 @@ class Zep {
 
   /**
    * A callback to call when the execution of Zep.run() has been cancelled.
-   * @param {Function} callback
-   * @returns {void}
+   * @param {ZepEventHandler} handler
+   * @returns {Zep}
    */
-  set onCancelled(callback) {
+  onCancelled(handler) {
     /**
      * @private
      */
-    this._onCancelled = callback
+    this._onCancelled = handler
+    return this
   }
 
   /**
    * A callback to call when the execution of Zep.run() has been aborted.
-   * @param {Function} callback
+   * @param {ZepEventHandler} handler
+   * @returns {Zep}
    */
-  set onAborted(callback) {
+  onAborted(handler) {
     /**
      * @private
      */
-    this._onAborted = callback
+    this._onAborted = handler
+    return this
   }
 
   /**
    * A callback to call before Zep.run().
-   * @param {Function} callback
+   * @param {ZepEventHandler} handler
+   * @returns {Zep}
    */
-  set onBeforeRun(callback) {
+  onBeforeRun(handler) {
     /**
      * @private
      */
-    this._onBeforeRun = callback
+    this._onBeforeRun = handler
+    return this
   }
 
   /**
    * A callback to call before Zep.run().
-   * @param {Function} callback
+   * @param {ZepEventHandler} handler
+   * @returns {Zep}
    */
-  set onAfterRun(callback) {
+  onAfterRun(handler) {
     /**
      * @private
      */
-    this._onAfterRun = callback
+    this._onAfterRun = handler
+    return this
   }
 
   /**
    * A callback to call when the execution of Zep.run() has been completed - no more calls to the Zep.run() where provided in the defined time limit.
-   * @param {Function} callback
+   * @param {ZepEventHandler} handler
+   * @returns {Zep}
    */
-  set onCompleted(callback) {
+  onCompleted(handler) {
     /**
      * @private
      */
-    this._onCompleted = callback
+    this._onCompleted = handler
+    return this
   }
 
   /**
@@ -205,23 +219,38 @@ class Zep {
 
   /**
    * Writes Zep statistical information to the console.
+   * @public
    * @returns {void}
    */
   writeStats() {
+    let percentageSaved
+
+    // handles undefined and 0
+    if (this._executionCount && this._calls) {
+      percentageSaved = (
+        100 -
+        (this._executionCount / this._calls) * 100
+      ).toFixed(2)
+    } else {
+      percentageSaved = 0
+    }
+
     console.log(
-      `[Zep] invoked: ${this._calls}, callback executions: ${this._executionCount}.`
+      `[Zep]: invocations: ${this._calls}, callback executions: ${this._executionCount}, saving ${percentageSaved}% of calls.`
     )
   }
 
   /**
    * Runs your callback defined in the constructor if necessary or else debounces it. You can pass as many arguments to this method and they will be available in your callback. This method should be passed as the event handler.
    * @param {...any} [args]
-   * @returns {void}
+   * @returns {Zep}
    */
   run() {
     if (typeof this._callback !== 'function') {
-      return
+      return this
     }
+
+    const self = this
 
     this._calls++
     this._args = arguments
@@ -232,6 +261,7 @@ class Zep {
     if (!this._time) {
       this._callback.apply(this, arguments)
       this._executionCount++
+      return this
     } else {
       this._isWaiting = true
       this._isRunning = true
@@ -246,7 +276,7 @@ class Zep {
             this._wasAborted = true
 
             if (typeof this._onAborted === 'function') {
-              this._onAborted()
+              this._onAborted(self)
             }
 
             // don't let the execution continue!
@@ -263,30 +293,28 @@ class Zep {
               !this._wasCancelled &&
               typeof this._onCompleted === 'function'
             ) {
-              this._onCompleted()
+              this._onCompleted(self)
             }
 
             return
           }
 
           if (this._shouldCancel && typeof this._onCancelled === 'function') {
-            // this._deleteTimer()
-
             this._isRunning = false
             this._shouldCancel = false
             this._wasCancelled = true
 
-            this._onCancelled()
+            this._onCancelled.call(this)
           }
 
           if (typeof this._onBeforeRun === 'function') {
-            this._onBeforeRun()
+            this._onBeforeRun(self)
           }
 
-          this._callback.apply(this, this._args)
+          this._callback.apply(self, this._args)
 
           if (typeof this._onAfterRun === 'function') {
-            this._onAfterRun()
+            this._onAfterRun(self)
           }
 
           this._executionCount++
@@ -296,6 +324,7 @@ class Zep {
         }, this._time)
       }
     }
+    return this
   }
 }
 
