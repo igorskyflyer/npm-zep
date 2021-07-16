@@ -1,14 +1,18 @@
-## Zep
+## `Zep()`
 
 <sub>Your personal (de)bouncer 💪🦸‍♂️</sub>
 
 <br>
 
-🧠 `Zep` is a zero-dependency, efficient debounce module. ⏰
+🧠 `Zep()` is a zero-dependency, efficient debounce module. ⏰
 
-> Why `Zep`? Because `Zep` allows you to create a time-invoked callbacks but with _deferred_ execution! `Zep` does debouncing in a **very efficient** manner by only creating 1 Timer\* - provided by `setInterval`. Some use cases are: when you are processing user input but want to wait until they have finished typing or you are using a 3rd-party API that calls an event handler too often - you can throttle those calls or when your event handler does intensive computing and you want to minimize workload. It limits the rate at which a function/handler can be fired/triggered, thus increasing performance/responsiveness of your product.
+> Why `Zep()`? Because `Zep()` allows you to create a time-invoked callbacks but with _deferred_ execution! `Zep()` does debouncing in a **very efficient** manner by only creating 1 Timer\* - provided by `setInterval`. Some use cases are: when you are processing user input but want to wait until they have finished typing or you are using a 3rd-party API that calls an event handler too often - you can throttle those calls or when your event handler does intensive computing and you want to minimize workload. It limits the rate at which a function/handler can be fired/triggered, thus increasing performance/responsiveness of your product.
 
 <sub>\* other debounce functions/modules create dozens, even hundreds of Timers in order to provide the same functionality.</sub>
+
+<br>
+
+> Note, since `v.3.0.0`, setter for event handling properties were converted to methods that accept your event handler and return the current instance of `Zep()`, useful for chained calls, see [ZepEventHandler](#zep-eventhandler) and its benefits.
 
 <br>
 
@@ -34,7 +38,7 @@ npm i "@igor.dvlpr/zep"
 constructor(callback: Function, [time: number]): Zep
 ```
 
-Creates a new instance of `Zep`, this is where you should define your function/callback that will be debounced - when needed. If you don't define the `time` parameter or `time <= 0` your `callback` will be called immediately without ever being debounced. You can have as many arguments in your `callback` function as you want.
+Creates a new instance of `Zep()`, this is where you should define your function/callback that will be debounced - when needed. If you don't define the `time` parameter or `time <= 0` your `callback` will be called immediately without ever being debounced. You can have as many arguments in your `callback` function as you want.
 
 ```js
 const Zep = require('@igor.dvlpr/zep')
@@ -56,6 +60,36 @@ const zep = new Zep(myFunction, 1500)
 
  <br>
 
+<a id="zep-eventhandler"></a>
+
+```ts
+type ZepEventHandler
+```
+
+Contains a single property, `self: Zep`. Used as the type for the parameter `callback` when setting event handlers. Inside your event handlers you can use `self` to reference `Zep()` itself. See more below.
+
+ <br>
+
+`onCancelled(handler: ZepEventHandler): Zep` - a handler to call when the execution of `Zep.run()` has been cancelled. See also, [`Zep.cancel()`](#zep-cancel).
+
+<br>
+
+`onAborted(handler: ZepEventHandler): Zep` - a handler to call when the execution of `Zep.run()` has been aborted. See also, [`Zep.abort()`](#zep-abort).
+
+<br>
+
+`onBeforeRun(handler: ZepEventHandler): Zep` - a handler to call before each call to your `callback`.
+
+<br>
+
+`onAfterRun(handler: ZepEventHandler): Zep` - a handler to call after each call to your `callback`.
+
+<br>
+
+`onCompleted(handler: ZepEventHandler): Zep` - a handler to call after `Zep()` has finished running `===` no more calls to the `Zep.run()` in the given time-frame.
+
+<br>
+
 <a id="zep-abort"></a>
 
 `abort(): void` - aborts the execution, stops Zep completely and - if applicable - the current running Timer without waiting for it to finish its execution. See also [`Zep.cancel()`](#zep-cancel).
@@ -72,11 +106,11 @@ const zep = new Zep(myFunction, 1500)
 
 <br>
 
-`writeStats(): void` - writes `Zep` statistical information to the `console`, sample output,
+`writeStats(): void` - writes `Zep()` statistical information to the `console`, sample output,
 
-> ` [Zep]`: invoked: 1000, callback executions: 210.
+> `[Zep]`: invocations: 500, callback executions: 32, saving of 93.60% calls.
 
-☝ Means that the event was triggered **1000** times but `Zep` debounced it and only executed its handler **210** times instead, the handler was called **79%** less than without using it.
+☝ Means that the event was triggered **500** times but `Zep()` debounced it and only executed its handler **32** times instead, the handler was called **93.60%** less than without using `Zep()`.
 
 <br>
 <br>
@@ -87,7 +121,7 @@ const zep = new Zep(myFunction, 1500)
 
 <br>
 
-`isWaiting: boolean` - indicates whether `Zep` is waiting for a Timer to finish its execution, if `true`, `Zep.run()` won't create new Timers when called.
+`isWaiting: boolean` - indicates whether `Zep()` is waiting for a Timer to finish its execution, if `true`, `Zep.run()` won't create new Timers when called.
 
 <br>
 
@@ -100,26 +134,6 @@ const zep = new Zep(myFunction, 1500)
 <br>
 
 `wasAborted: boolean` - indicates whether the execution of `Zep.run()` was aborted. Execution can be aborted by calling [`Zep.abort()`](#zep-abort).
-
-<br>
-
-`onCancelled: Function` - a callback to call when the execution of `Zep.run()` has been cancelled. See also, [`Zep.cancel()`](#zep-cancel).
-
-<br>
-
-`onAborted: Function` - a callback to call when the execution of `Zep.run()` has been aborted. See also, [`Zep.abort()`](#zep-abort).
-
-<br>
-
-`onBeforeRun: Function` - a callback to call before each call to your `callback`.
-
-<br>
-
-`onAfterRun: Function` - a callback to call after each call to your `callback`.
-
-<br>
-
-`onCompleted: Function` - a callback to call after `Zep` has finished running `===` no more calls to the `Zep.run()` in the given time-frame.
 
 <br>
 
@@ -143,6 +157,11 @@ const picker = vscode.window.createQuickPick()
  picker.onDidChangeValue((e) => {
 	 zep.run(e)
  }
+
+// due to the nature of JavaScript, this WON'T WORK
+// because <this> will be undefined, thus resulting in an error
+ picker.onDidChangeValue(zep.run)
+
  // by using Zep we can wait for the user to finish their input
  // if they haven't typed a single letter = the onDidChangeValue wasn't
  // triggered for 1500ms (1.5s) we assume they finished typing
