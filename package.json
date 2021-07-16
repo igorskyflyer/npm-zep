@@ -9,7 +9,7 @@
 	],
 	"types": "./dist/index.d.ts",
 	"scripts": {
-		"test": "mocha",
+		"test": "mocha --timeout 4000",
 		"party": "npm test && tsc && npm publish --access public"
 	},
 	"repository": {
