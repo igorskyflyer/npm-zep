@@ -227,10 +227,7 @@ class Zep {
 
     // handles undefined and 0
     if (this._executionCount && this._calls) {
-      percentageSaved = (
-        100 -
-        (this._executionCount / this._calls) * 100
-      ).toFixed(2)
+      percentageSaved = (100 - (this._executionCount / this._calls) * 100).toFixed(2)
     } else {
       percentageSaved = 0
     }
@@ -259,7 +256,7 @@ class Zep {
     this._wasAborted = false
 
     if (!this._time) {
-      this._callback.apply(this, arguments)
+      this._callback(self, arguments)
       this._executionCount++
       return this
     } else {
@@ -289,10 +286,7 @@ class Zep {
             this._isWaiting = false
             this._isRunning = false
 
-            if (
-              !this._wasCancelled &&
-              typeof this._onCompleted === 'function'
-            ) {
+            if (!this._wasCancelled && typeof this._onCompleted === 'function') {
               this._onCompleted(self)
             }
 
