@@ -11,6 +11,12 @@
  * @param {Zep} self
  */
 
+/**
+ * @callback ZepErrorHandler
+ * @param {Zep} self
+ * @param {Error} error
+ */
+
 class Zep {
   /**
    * Creates a new instance of Zep, this is where you should define your function/callback that will be debounced - when needed. If you don’t define the time parameter or time <= 0 your callback will be called immediately without ever being debounced. You can have as many arguments in your callback function as you want.
@@ -136,7 +142,7 @@ class Zep {
   }
 
   /**
-   * A callback to call when the execution of Zep.run() has been cancelled.
+   * A handler to call when the execution of Zep.run() has been cancelled.
    * @param {ZepEventHandler} handler
    * @returns {Zep}
    */
@@ -149,7 +155,7 @@ class Zep {
   }
 
   /**
-   * A callback to call when the execution of Zep.run() has been aborted.
+   * A handler to call when the execution of Zep.run() has been aborted.
    * @param {ZepEventHandler} handler
    * @returns {Zep}
    */
@@ -162,7 +168,7 @@ class Zep {
   }
 
   /**
-   * A callback to call before Zep.run().
+   * A handler to call before Zep.run().
    * @param {ZepEventHandler} handler
    * @returns {Zep}
    */
@@ -175,7 +181,7 @@ class Zep {
   }
 
   /**
-   * A callback to call after Zep.run().
+   * A handler to call after Zep.run().
    * @param {ZepEventHandler} handler
    * @returns {Zep}
    */
@@ -188,7 +194,7 @@ class Zep {
   }
 
   /**
-   * A callback to call when the execution of Zep.run() has been completed - no more calls to the Zep.run() where provided in the defined time limit.
+   * A handler to call when the execution of Zep.run() has been completed - no more calls to the Zep.run() where provided in the defined time limit.
    * @param {ZepEventHandler} handler
    * @returns {Zep}
    */
@@ -197,6 +203,19 @@ class Zep {
      * @private
      */
     this._onCompleted = handler
+    return this
+  }
+
+  /**
+   * A handler to call when an error has occurred during execution.
+   * @param {ZepErrorHandler} handler
+   * @returns {Zep}
+   */
+  onError(handler) {
+    /**
+     * @private
+     */
+    this._onError = handler
     return this
   }
 
@@ -260,7 +279,14 @@ class Zep {
     this._isRunning = true
 
     if (!this._time) {
-      this._callback(self, ...this._args)
+      try {
+        this._callback(self, ...this._args)
+      } catch (e) {
+        if (typeof this._onError === 'function') {
+          this._onError(self, e)
+        }
+      }
+
       this._executionCount++
       this._isWaiting = false
       this._isRunning = false
@@ -308,7 +334,13 @@ class Zep {
             this._onBeforeRun(self)
           }
 
-          this._callback(self, ...this._args)
+          try {
+            this._callback(self, ...this._args)
+          } catch (e) {
+            if (typeof this._onError === 'function') {
+              this._onError(self, e)
+            }
+          }
 
           if (typeof this._onAfterRun === 'function') {
             this._onAfterRun(self)
