@@ -301,7 +301,7 @@ class Zep {
             this._shouldCancel = false
             this._wasCancelled = true
 
-            this._onCancelled.call(this)
+            this._onCancelled.call(self)
           }
 
           if (typeof this._onBeforeRun === 'function') {
