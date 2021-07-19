@@ -29,7 +29,7 @@ describe('🧪 Zep tests 🧪', () => {
   it('should be > 10', (done) => {
     let test = 0
 
-    const handler = new Zep((value) => {
+    const handler = new Zep((self, value) => {
       test += value
     }, 200).onCompleted(() => {
       done()
