@@ -2,6 +2,7 @@
 
 /**
  * @callback ZepCallback
+ * @param {Zep} self
  * @param {...*} args
  */
 
@@ -255,14 +256,16 @@ class Zep {
     this._wasCancelled = false
     this._wasAborted = false
 
+    this._isWaiting = true
+    this._isRunning = true
+
     if (!this._time) {
       this._callback(self, ...this._args)
       this._executionCount++
+      this._isWaiting = false
+      this._isRunning = false
       return this
     } else {
-      this._isWaiting = true
-      this._isRunning = true
-
       if (!this._timer) {
         this._timer = setInterval(() => {
           if (this._shouldAbort) {
@@ -321,9 +324,5 @@ class Zep {
     return this
   }
 }
-
-new Zep((self, a, b) => {
-  console.log(self, a, b)
-}, 100).run(123, 194949)
 
 module.exports = Zep
