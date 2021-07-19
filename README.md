@@ -12,7 +12,7 @@
 
 <br>
 
-> Note, since `v.3.0.0`, setter for event handling properties were converted to methods that accept your event handler and return the current instance of `Zep()`, useful for chained calls, see [ZepEventHandler](#zep-eventhandler) and its benefits.
+> Note, since `v.3.0.0`, setters for event handling properties were converted to methods that accept your event handler and return the current instance of `Zep()`, useful for chained calls, see [ZepEventHandler](#zep-eventhandler) and its benefits.
 
 <br>
 
@@ -70,7 +70,7 @@ constructor(callback: ZepCallback, [time: number]): Zep
 
 Creates a new instance of `Zep()`, this is where you should define your function/callback that will be debounced - when needed. If you don't define the `time` parameter or `time <= 0` your `callback` will be called immediately without ever being debounced. You can have as many arguments in your `callback` function as you want.
 
-Since `v.4.0.0` event handlers have changed. Their first parameter is always `self: Zep` which returns a self-reference to the current Zep object that triggered the event handler.
+Since `v.4.0.0` event handlers have changed. Their first parameter is always `self: Zep` which is a self-reference to the current Zep object that triggered the event handler.
 
 ```js
 const Zep = require('@igor.dvlpr/zep')
