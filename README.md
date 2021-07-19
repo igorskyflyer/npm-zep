@@ -170,7 +170,7 @@ const Zep = require('@igor.dvlpr/zep')
 
 
 // pass an arrow function
-const zep = new Zep((value, item) => {
+const zep = new Zep((self, value, item) => {
   // code to limit its execution rate
 }, 1500)
 
