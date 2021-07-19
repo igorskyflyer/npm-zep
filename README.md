@@ -51,6 +51,15 @@ type ZepEventHandler {
 
 <br>
 
+```ts
+type ZepErrorHandler {
+	self: Zep,
+	error: Error
+}
+```
+
+<br>
+
 **Methods**
 
 <br>
