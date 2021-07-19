@@ -30,25 +30,48 @@ npm i "@igor.dvlpr/zep"
 
 <br>
 
+**Types**
+
+```ts
+type ZepCallback {
+	self: Zep,
+	args: ...*
+}
+```
+
+<br>
+
+<a id="zep-eventhandler"></a>
+
+```ts
+type ZepEventHandler {
+	self: Zep
+}
+```
+
+<br>
+
 **Methods**
 
 <br>
 
 ```js
-constructor(callback: Function, [time: number]): Zep
+constructor(callback: ZepCallback, [time: number]): Zep
 ```
 
 Creates a new instance of `Zep()`, this is where you should define your function/callback that will be debounced - when needed. If you don't define the `time` parameter or `time <= 0` your `callback` will be called immediately without ever being debounced. You can have as many arguments in your `callback` function as you want.
+
+Since `v.4.0.0` event handlers have changed. Their first parameter is always `self: Zep` which returns a self-reference to the current Zep object that triggered the event handler.
 
 ```js
 const Zep = require('@igor.dvlpr/zep')
 
 // pass an arrow function
-const zep = new Zep((value, item) => {
+const zep = new Zep((self, value, item) => {
   // code to limit its execution rate
 }, 1500)
 
-function myFunction(value) {
+function myFunction(self, value) {
   /* some code */
 }
 
@@ -57,16 +80,6 @@ const zep = new Zep(myFunction, 1500)
 
 //  You can have as many arguments in your callback function as you want.
 ```
-
- <br>
-
-<a id="zep-eventhandler"></a>
-
-```ts
-type ZepEventHandler
-```
-
-Contains a single property, `self: Zep`. Used as the type for the parameter `callback` when setting event handlers. Inside your event handlers you can use `self` to reference `Zep()` itself. See more below.
 
  <br>
 
