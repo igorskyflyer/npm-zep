@@ -175,7 +175,7 @@ class Zep {
   }
 
   /**
-   * A callback to call before Zep.run().
+   * A callback to call after Zep.run().
    * @param {ZepEventHandler} handler
    * @returns {Zep}
    */
