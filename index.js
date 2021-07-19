@@ -40,7 +40,7 @@ class Zep {
     this._calls = 0
     /**
      * @private
-     *  @type {IArguments|undefined}
+     *  @type {[]|undefined}
      */
     this._args = undefined
     /**
@@ -250,13 +250,13 @@ class Zep {
     const self = this
 
     this._calls++
-    this._args = arguments
+    this._args = Array.prototype.slice.call(arguments)
 
     this._wasCancelled = false
     this._wasAborted = false
 
     if (!this._time) {
-      this._callback(self, arguments)
+      this._callback(self, this._args)
       this._executionCount++
       return this
     } else {
@@ -305,7 +305,7 @@ class Zep {
             this._onBeforeRun(self)
           }
 
-          this._callback.apply(self, this._args)
+          this._callback(self, ...this._args)
 
           if (typeof this._onAfterRun === 'function') {
             this._onAfterRun(self)
@@ -321,5 +321,9 @@ class Zep {
     return this
   }
 }
+
+new Zep((self, a, b) => {
+  console.log(self, a, b)
+}, 100).run(123, 194949)
 
 module.exports = Zep
