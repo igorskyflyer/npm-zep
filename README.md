@@ -103,6 +103,10 @@ const zep = new Zep(myFunction, 1500)
 
 <br>
 
+`onError(handler: ZepEventHandler, error: Error): Zep` - a handler to call when an error has occurred during execution.
+
+<br>
+
 <a id="zep-abort"></a>
 
 `abort(): void` - aborts the execution, stops Zep completely and - if applicable - the current running Timer without waiting for it to finish its execution. See also [`Zep.cancel()`](#zep-cancel).
