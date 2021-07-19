@@ -256,7 +256,7 @@ class Zep {
     this._wasAborted = false
 
     if (!this._time) {
-      this._callback(self, this._args)
+      this._callback(self, ...this._args)
       this._executionCount++
       return this
     } else {
