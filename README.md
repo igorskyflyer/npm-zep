@@ -6,7 +6,7 @@
 
 🧠 `Zep()` is a zero-dependency, efficient debounce module. ⏰
 
-> Why `Zep()`? Because `Zep()` allows you to create a time-invoked callbacks but with _deferred_ execution! `Zep()` does debouncing in a **very efficient** manner by only creating 1 Timer\* - provided by `setInterval`. Some use cases are: when you are processing user input but want to wait until they have finished typing or you are using a 3rd-party API that calls an event handler too often - you can throttle those calls or when your event handler does intensive computing and you want to minimize workload. It limits the rate at which a function/handler can be fired/triggered, thus increasing performance/responsiveness of your product.
+> Why `Zep()`? Because `Zep()` allows you to create time-invoked callbacks but with _deferred_ execution! `Zep()` does debouncing in a **very efficient** manner by only creating 1 Timer\* - provided by `setInterval`. Some use cases are: when you are processing user input but want to wait until they have finished typing or you are using a 3rd-party API that calls an event handler too often - you can throttle those calls or when your event handler does intensive computing and you want to minimize workload. It limits the rate at which a function/handler can be fired/triggered, thus increasing performance/responsiveness of your product.
 
 <sub>\* other debounce functions/modules create dozens, even hundreds of Timers in order to provide the same functionality.</sub>
 
@@ -184,9 +184,27 @@ const picker = vscode.window.createQuickPick()
 	 zep.run(e)
  }
 
-// due to the nature of JavaScript, this WON'T WORK
-// because <this> will be undefined, thus resulting in an error
+// due to the nature of JavaScript the following WON'T WORK, when you pass a class method as a parameter that method will get detached from the class and lose its track of <this>,
+// which will be globalThis/undefined, thus resulting in an error,
  picker.onDidChangeValue(zep.run)
+
+ // but you could do any of the 2 techniques
+
+ // ****
+ function changeHandler() {
+	 zep.run()
+ }
+
+ // and then use that wrapper-function
+ picker.onDidChangeValue(changeHandler)
+  // ****
+
+	// or
+
+// ****
+const changeHandler = zep.run.bind(zep)
+ picker.onDidChangeValue(changeHandler)
+  // ****
 
  // by using Zep we can wait for the user to finish their input
  // if they haven't typed a single letter = the onDidChangeValue wasn't
