@@ -184,11 +184,13 @@ const picker = vscode.window.createQuickPick()
 	 zep.run(e)
  }
 
-// due to the nature of JavaScript the following WON'T WORK, when you pass a class method as a parameter that method will get detached from the class and lose its track of <this>,
+// due to the nature of JavaScript the following WON'T WORK,
+// when you pass a class method as a parameter that
+// method will get detached from the class and lose its track of <this>,
 // which will be globalThis/undefined, thus resulting in an error,
  picker.onDidChangeValue(zep.run)
 
- // but you could do any of the 2 techniques
+ // but you could use any of the 2 techniques
 
  // ****
  function changeHandler() {
