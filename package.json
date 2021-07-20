@@ -1,7 +1,7 @@
 {
 	"name": "@igor.dvlpr/zep",
-	"version": "4.0.0",
-	"description": "Zep is an efficient debounce module.",
+	"version": "4.0.1",
+	"description": "🧠 Zep is a zero-dependency, efficient debounce module. ⏰",
 	"main": "index.js",
 	"files": [
 		"index.js",
