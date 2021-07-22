@@ -33,7 +33,7 @@ describe('🧪 Zep tests 🧪', () => {
       test += value
     }, 200).onCompleted(() => {
       done()
-      chai.isAbove(test, 5)
+      chai.isAbove(test, 10)
     })
 
     simulate(handler, 10, 100, 5)
