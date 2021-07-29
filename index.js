@@ -267,6 +267,21 @@ class Zep {
       return this
     }
 
+    if (this._shouldAbort) {
+      this._deleteTimer()
+
+      this._isRunning = false
+      this._shouldAbort = false
+      this._wasAborted = true
+
+      if (typeof this._onAborted === 'function') {
+        this._onAborted(this)
+      }
+
+      // don't let the execution continue!
+      return this
+    }
+
     const self = this
 
     this._calls++
@@ -294,21 +309,6 @@ class Zep {
     } else {
       if (!this._timer) {
         this._timer = setInterval(() => {
-          if (this._shouldAbort) {
-            this._deleteTimer()
-
-            this._isRunning = false
-            this._shouldAbort = false
-            this._wasAborted = true
-
-            if (typeof this._onAborted === 'function') {
-              this._onAborted(self)
-            }
-
-            // don't let the execution continue!
-            return
-          }
-
           if (!this._isRunning) {
             this._deleteTimer()
 
