@@ -24,7 +24,7 @@ export class Zep {
   constructor(callback, time) {
     /**
      * @private
-     * @type {number}
+     * @type {number|NodeJS.Timeout}
      */
     // @ts-ignore
     this._timer = 0
@@ -45,7 +45,7 @@ export class Zep {
     this._calls = 0
     /**
      * @private
-     *  @type {[]|undefined}
+     *  @type {any[]|undefined}
      */
     this._args = undefined
     /**
@@ -62,6 +62,7 @@ export class Zep {
      * @private
      *  @type {number}
      */
+    // @ts-ignore
     this._time = time
     /**
      * @private
@@ -93,8 +94,8 @@ export class Zep {
      * @returns {void}
      */
     this._deleteTimer = () => {
-      clearInterval(this._timer)
       // @ts-ignore
+      clearInterval(this._timer)
       this._timer = 0
     }
   }
@@ -325,6 +326,7 @@ export class Zep {
             this._shouldCancel = false
             this._wasCancelled = true
 
+            // @ts-ignore
             this._onCancelled.call(self)
           }
 
@@ -333,6 +335,7 @@ export class Zep {
           }
 
           try {
+            // @ts-ignore
             this._callback(self, ...this._args)
           } catch (e) {
             if (typeof this._onError === 'function') {
