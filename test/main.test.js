@@ -1,5 +1,5 @@
-const chai = require('chai').assert
-const Zep = require('../index')
+import { assert as chai } from 'chai'
+import { Zep } from '../src/main.js'
 
 // simulates multiple consecutive calls to a handler
 function simulate(handler, iterations, time, param = -1) {
