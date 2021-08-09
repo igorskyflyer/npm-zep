@@ -78,7 +78,7 @@ Creates a new instance of `Zep()`, this is where you should define your function
 Since `v.4.0.0` event handlers have changed. Their first parameter is always `self: Zep` which is a self-reference to the current Zep object that triggered the event handler.
 
 ```js
-const Zep = require('@igor.dvlpr/zep')
+const { Zep } = require('@igor.dvlpr/zep')
 
 // pass an arrow function
 const zep = new Zep((self, value, item) => {
@@ -171,7 +171,7 @@ const zep = new Zep(myFunction, 1500)
 ### Example
 
 ```js
-const Zep = require('@igor.dvlpr/zep')
+const { Zep } = require('@igor.dvlpr/zep')
 
 
 // pass an arrow function
