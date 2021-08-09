@@ -15,7 +15,7 @@
  * @param {Error} error
  */
 
-export class Zep {
+class Zep {
   /**
    * Creates a new instance of Zep, this is where you should define your function/callback that will be debounced - when needed. If you don’t define the time parameter or time <= 0 your callback will be called immediately without ever being debounced. You can have as many arguments in your callback function as you want.
    * @param {ZepCallback} callback
@@ -357,3 +357,5 @@ export class Zep {
     return this
   }
 }
+
+module.exports = {Zep}
