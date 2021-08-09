@@ -358,4 +358,4 @@ class Zep {
   }
 }
 
-module.exports = {Zep}
+module.exports = { Zep }
