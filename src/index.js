@@ -297,6 +297,7 @@ class Zep {
         this._callback(self, ...this._args)
       } catch (e) {
         if (typeof this._onError === 'function') {
+          // @ts-ignore
           this._onError(self, e)
         }
       }
@@ -339,6 +340,7 @@ class Zep {
             this._callback(self, ...this._args)
           } catch (e) {
             if (typeof this._onError === 'function') {
+              // @ts-ignore
               this._onError(self, e)
             }
           }
