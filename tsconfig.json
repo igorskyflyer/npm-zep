@@ -7,7 +7,6 @@
 	],
 	"compilerOptions": {
 		"target": "ES5",
-		"module": "ES6",
 		"allowJs": true,
 		"checkJs": true,
 		"declaration": true,
@@ -16,7 +15,6 @@
 		"forceConsistentCasingInFileNames": true,
 		"declarationDir": "dist",
 		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
 		"noEmitOnError": true,
 		"strict": true,
 		"noUnusedLocals": true,
