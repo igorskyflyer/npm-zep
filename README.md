@@ -13,10 +13,6 @@
 <br>
 <br>
 
-✨ Since `v.5.0.0` `Zep()` is a hybrid module that supports both CommonJS (legacy) and ES modules, thanks to [Modern Module](https://github.com/igorskyflyer/npm-modern-module).
-
-<br>
-
 > Note, since `v.3.0.0`, setters for event handling properties were converted to methods that accept your event handler and return the current instance of `Zep()`, useful for chained calls, see [ZepEventHandler](#zep-eventhandler) and its benefits.
 
 <br>
