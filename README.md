@@ -1,25 +1,48 @@
-## `Zep()`
+<h1 align="center"><code>Zep()</code></h1>
 
 <sub>Your personal (de)bouncer 💪🦸‍♂️</sub>
 
 <br>
 
-🧠 `Zep()` is a zero-dependency, efficient debounce module. ⏰
+<p align="center">
+	🧠 Zep is a zero-dependency, efficient debounce module. ⏰
+</p>
 
+<p>
 > Why `Zep()`? Because `Zep()` allows you to create time-invoked callbacks but with _deferred_ execution! `Zep()` does debouncing in a **very efficient** manner by only creating 1 Timer\* - provided by `setInterval`. Some use cases are: when you are processing user input but want to wait until they have finished typing or you are using a 3rd-party API that calls an event handler too often - you can throttle those calls or when your event handler does intensive computing and you want to minimize workload. It limits the rate at which a function/handler can be fired/triggered, thus increasing performance/responsiveness of your product.
+</p>
 
 <sub>\* other debounce functions/modules create dozens, even hundreds of Timers in order to provide the same functionality.</sub>
 
 <br>
 <br>
 
-> Note, since `v.3.0.0`, setters for event handling properties were converted to methods that accept your event handler and return the current instance of `Zep()`, useful for chained calls, see [ZepEventHandler](#zep-eventhandler) and its benefits.
+<div align="center">
+	<blockquote>
+		<br>
+		<h4>💖 Support further development</h4>
+		<span>I work hard for every project, including this one and your support means a lot to me!
+		<br>
+		Consider buying me a coffee. ☕
+		<br>
+		<strong>Thank you for supporting my efforts! 🙏😊</strong></span>
+		<br>
+		<br>
+		<a href="https://ko-fi.com/igorskyflyer" target="_blank"><img src="https://raw.githubusercontent.com/igorskyflyer/igorskyflyer/main/assets/ko-fi.png" alt="Donate to igorskyflyer" width="150"></a>
+		<br>
+		<br>
+		<a href="https://github.com/igorskyflyer"><em>@igorskyflyer</em></a>
+		<br>
+		<br>
+		<br>
+	</blockquote>
+</div>
 
 <br>
 
-### Usage
+## 🕵🏼 Usage
 
-Install it by running:
+Install it by executing:
 
 ```shell
 npm i "@igor.dvlpr/zep"
@@ -27,151 +50,214 @@ npm i "@igor.dvlpr/zep"
 
 <br>
 
-### API
+## 🤹🏼 API
 
-<br>
-
-**Types**
+### Types
 
 ```ts
-type ZepCallback {
-	self: Zep,
-	args: ...*
-}
+type ZepCallback = (...args: any[]) => void
 ```
 
-<br>
-
-<a id="zep-eventhandler"></a>
-
-```ts
-type ZepEventHandler {
-	self: Zep
-}
-```
+Used as a type for the callback provided in the constructor.
 
 <br>
 
 ```ts
-type ZepErrorHandler {
-	self: Zep,
-	error: Error
-}
+type ZepErrorHandler = (error: unknown) => void
 ```
+
+Used as a type for the callback used in handling errors.
 
 <br>
 
-**Methods**
-
-<br>
-
-```js
-constructor(callback: ZepCallback, [time: number]): Zep
+```ts
+type ZepEventHandler = () => void
 ```
 
-Creates a new instance of `Zep()`, this is where you should define your function/callback that will be debounced - when needed. If you don't define the `time` parameter or `time <= 0` your `callback` will be called immediately without ever being debounced. You can have as many arguments in your `callback` function as you want.
+Used as a type for `Zep` events.
 
-Since `v.4.0.0` event handlers have changed. Their first parameter is always `self: Zep` which is a self-reference to the current Zep object that triggered the event handler.
+---
 
-```js
-const { Zep } = require('@igor.dvlpr/zep')
+### Methods
+
+```ts
+constructor(callback: ZepCallback, time?: number): Zep
+```
+
+Creates a new instance of Zep.
+
+- `callback` - the function/callback to debounce.
+- `time` - the time limit (in **ms**) for the debouncing.
+
+<br>
+<br>
+
+`example.ts`
+```ts
+import { Zep } from '@igor.dvlpr/zep'
 
 // pass an arrow function
-const zep = new Zep((self, value, item) => {
+const zep: Zep = new Zep((value: string) => {
   // code to limit its execution rate
 }, 1500)
 
-function myFunction(self, value) {
+function myFunction(value: string) {
   /* some code */
 }
 
 // or an existing function
-const zep = new Zep(myFunction, 1500)
+const zep: Zep = new Zep(myFunction, 1500)
 
 //  You can have as many arguments in your callback function as you want.
 ```
 
- <br>
+---
 
-`onCancelled(handler: ZepEventHandler): Zep` - a handler to call when the execution of `Zep.run()` has been cancelled. See also, [`Zep.cancel()`](#zep-cancel).
+```ts
+onCancelled(handler: ZepEventHandler): Zep
+```
 
-<br>
+A handler to call when the execution of `Zep.run()` has been cancelled.  
+See also [`Zep.cancel()`](#zep-cancel).
 
-`onAborted(handler: ZepEventHandler): Zep` - a handler to call when the execution of `Zep.run()` has been aborted. See also, [`Zep.abort()`](#zep-abort).
+---
 
-<br>
+```ts
+onAborted(handler: ZepEventHandler): Zep
+```
 
-`onBeforeRun(handler: ZepEventHandler): Zep` - a handler to call before each call to your `callback`.
+A handler to call when the execution of `Zep.run()` has been aborted.  
+See also [`Zep.abort()`](#zep-abort).
 
-<br>
+---
 
-`onAfterRun(handler: ZepEventHandler): Zep` - a handler to call after each call to your `callback`.
+```ts
+onBeforeRun(handler: ZepEventHandler): Zep
+```
 
-<br>
+A handler to call before each call to your `callback`.
 
-`onCompleted(handler: ZepEventHandler): Zep` - a handler to call after `Zep()` has finished running `===` no more calls to the `Zep.run()` in the given time-frame.
+---
 
-<br>
+```ts
+onAfterRun(handler: ZepEventHandler): Zep
+```
 
-`onError(handler: ZepEventHandler, error: Error): Zep` - a handler to call when an error has occurred during execution.
+A handler to call after each call to your `callback`.
 
-<br>
+---
+
+```ts
+onCompleted(handler: ZepEventHandler): Zep
+```
+
+A handler to call after `Zep()` has finished running `===` no more calls to the `Zep.run()` in the given time-frame.
+
+---
+
+```ts
+onError(handler: ZepEventHandler, error: Error): Zep
+```
+
+A handler to call when an error has occurred during execution.
+
+---
 
 <a id="zep-abort"></a>
 
-`abort(): void` - aborts the execution, stops Zep completely and - if applicable - the current running Timer without waiting for it to finish its execution. See also [`Zep.cancel()`](#zep-cancel).
+```ts
+abort(): void
+```
 
-<br>
+Aborts the execution, stops Zep completely and - if applicable - the current running Timer without waiting for it to finish its execution. See also [`Zep.cancel()`](#zep-cancel).
+
+---
 
 <a id="zep-cancel"></a>
 
-`cancel(): void` - stops the execution but **NOT** the current running Timer - if applicable. See also [`Zep.abort()`](#zep-abort).
+```ts
+cancel(): void
+```
 
-<br>
+Stops the execution but **NOT** the current running Timer - if applicable. See also [`Zep.abort()`](#zep-abort).
 
-`run(...args): void` - runs your `callback` defined in the constructor if necessary or else debounces it. You can pass as many arguments to this method and they will be available in your `callback`. This method should be passed as the event handler.
+---
 
-<br>
+```ts
+run(...args): void
+```
 
-`writeStats(): void` - writes `Zep()` statistical information to the `console`, sample output,
+Runs the callback defined in the constructor if necessary or else debounces it.
+
+---
+
+```ts
+writeStats(): void
+```
+
+Writes `Zep()` statistical information to the `console`, sample output,
 
 > `[Zep]`: invocations: 500, callback executions: 32, saving of 93.60% calls.
 
 ☝ Means that the event was triggered **500** times but `Zep()` debounced it and only executed its handler **32** times instead, the handler was called **93.60%** less than without using `Zep()`.
 
-<br>
+---
+
 <br>
 
 **Properties**
 
-`executionCount: number` - returns the number of callback executions.
+```ts
+executionCount: number
+```
+
+Returns the number of callback executions.
+
+---
+
+```ts
+isWaiting: boolean
+```
+
+Indicates whether `Zep()` is waiting for a Timer to finish its execution, if `true`, `Zep.run()` won't create new Timers when called.
+
+---
+
+```ts
+isRunning: boolean
+```
+
+Indicates whether a Timer is currently running your `callback`.
+
+---
+
+```ts
+wasCancelled: boolean
+```
+
+Indicates whether the execution of `Zep.run()` was cancelled. Execution can be cancelled by calling [`Zep.cancel()`](#zep-cancel).
+
+---
+
+```ts
+wasAborted: boolean
+```
+
+Indicates whether the execution of `Zep.run()` was aborted. Execution can be aborted by calling [`Zep.abort()`](#zep-abort).
+
+---
+
+### ✨ Example
 
 <br>
 
-`isWaiting: boolean` - indicates whether `Zep()` is waiting for a Timer to finish its execution, if `true`, `Zep.run()` won't create new Timers when called.
-
-<br>
-
-`isRunning: boolean` - indicates whether a Timer is currently running your `callback`.
-
-<br>
-
-`wasCancelled: boolean` - indicates whether the execution of `Zep.run()` was cancelled. Execution can be cancelled by calling [`Zep.cancel()`](#zep-cancel).
-
-<br>
-
-`wasAborted: boolean` - indicates whether the execution of `Zep.run()` was aborted. Execution can be aborted by calling [`Zep.abort()`](#zep-abort).
-
-<br>
-
-### Example
-
-```js
-const { Zep } = require('@igor.dvlpr/zep')
+`zep.ts`
+```ts
+import { Zep } from '@igor.dvlpr/zep'
 
 
 // pass an arrow function
-const zep = new Zep((self, value, item) => {
+const zep: Zep = new Zep((value: string) => {
   // code to limit its execution rate
 }, 1500)
 
@@ -181,7 +267,7 @@ const zep = new Zep((self, value, item) => {
 const picker = vscode.window.createQuickPick()
 
 // this is by default triggered each time a user types a character inside the QuickPick
- picker.onDidChangeValue((e) => {
+ picker.onDidChangeValue((e: string) => {
 	 zep.run(e)
  }
 
@@ -194,7 +280,7 @@ const picker = vscode.window.createQuickPick()
  // but you could use any of the 2 techniques
 
  // ****
- function changeHandler() {
+ function changeHandler(): void {
 	 zep.run()
  }
 
@@ -205,7 +291,7 @@ const picker = vscode.window.createQuickPick()
 	// or
 
 // ****
-const changeHandler = zep.run.bind(zep)
+const changeHandler: Function = zep.run.bind(zep)
  picker.onDidChangeValue(changeHandler)
   // ****
 
@@ -215,3 +301,45 @@ const changeHandler = zep.run.bind(zep)
 
 // more code
 ```
+
+---
+
+## 📝 Changelog
+
+> ✨ Changelog is available here: [CHANGELOG.md](https://github.com/igorskyflyer/npm-zep/blob/main/CHANGELOG.md).
+
+---
+
+## 🪪 License
+
+Licensed under the MIT license which is available here, [MIT license](https://github.com/igorskyflyer/npm-zep/blob/main/LICENSE).
+
+---
+
+## 🧬 Related
+
+[]()
+
+> __
+
+[]()
+
+> __
+
+[]()
+
+> __
+
+[]()
+
+> __
+
+[]()
+
+> __
+
+---
+
+<br>
+
+Provided by **Igor Dimitrijević** ([*@igorskyflyer*](https://github.com/igorskyflyer/)).
