@@ -62,7 +62,7 @@ export class Zep {
   }
 
   /**
-   * Indicates whether a Timer is currently running the provided callback.
+   * Indicates whether a Timer is currently running the `callback` provided in the constructor.
    */
   get isRunning(): boolean {
     return this.#isRunning
@@ -115,7 +115,7 @@ export class Zep {
   }
 
   /**
-   * A handler to call when the execution of Zep.run() has been completed - no more calls to the Zep.run() were provided in the defined time limit.
+   * A handler to call after `Zep()` has finished running, i.e. no more calls to the `Zep.run()` method have been issued in the given time-frame.
    */
   onCompleted(handler: ZepEventHandler): Zep {
     this.#onCompleted = handler
