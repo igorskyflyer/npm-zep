@@ -156,7 +156,7 @@ A handler to call after each call to your `callback`.
 onCompleted(handler: ZepEventHandler): Zep
 ```
 
-A handler to call after `Zep()` has finished running `===` no more calls to the `Zep.run()` in the given time-frame.
+A handler to call after `Zep()` has finished running, i.e. no more calls to the `Zep.run()` method have been issued in the given time-frame.
 
 ---
 
@@ -174,7 +174,7 @@ A handler to call when an error has occurred during execution.
 abort(): void
 ```
 
-Aborts the execution, stops Zep completely and - if applicable - the current running Timer without waiting for it to finish its execution. See also [`Zep.cancel()`](#zep-cancel).
+Aborts the execution, stops Zep completely and - if applicable - the currently running Timer without waiting for it to finish its execution. See also [`Zep.cancel()`](#zep-cancel).
 
 ---
 
@@ -232,7 +232,7 @@ Indicates whether `Zep()` is waiting for a Timer to finish its execution, if `tr
 isRunning: boolean
 ```
 
-Indicates whether a Timer is currently running your `callback`.
+Indicates whether a Timer is currently running the `callback` provided in the constructor.
 
 ---
 
@@ -323,28 +323,37 @@ Licensed under the MIT license which is available here, [MIT license](https://gi
 
 ## 🧬 Related
 
-[]()
+[@igor.dvlpr/scrollend-polyfill](https://www.npmjs.com/package/@igor.dvlpr/scrollend-polyfill)
 
-> __
+> _🛴 A performant and light (&lt; 1KB) JavaScript polyfill for the scrollend Event. ⛸️_
 
-[]()
+<br>
 
-> __
+[@igor.dvlpr/extendable-string](https://www.npmjs.com/package/@igor.dvlpr/extendable-string)
 
-[]()
+> _🦀 ExtendableString allows you to create strings on steroids that have custom transformations applied to them, unlike common, plain strings.. 🪀_
 
-> __
+<br>
 
-[]()
+[@igor.dvlpr/zing](https://www.npmjs.com/package/@igor.dvlpr/zing)
 
-> __
+> _🐌 Zing is a C# style String formatter for JavaScript that empowers Strings with positional arguments - composite formatting. 🚀_
 
-[]()
+<br>
 
-> __
+[@igor.dvlpr/node-clone-js](https://www.npmjs.com/package/@igor.dvlpr/node-clone-js)
+
+> _🧬 A lightweight JavaScript utility allowing deep copy-by-value of nested objects, arrays and arrays of objects. 🪁_
+
+<br>
+
+[@igor.dvlpr/upath](https://www.npmjs.com/package/@igor.dvlpr/upath)
+
+> _🎍 Provides a universal way of formatting file-paths in Unix-like and Windows operating systems as an alternative to the built-in path.normalize(). 🧬_
 
 ---
 
+<br>
 <br>
 
 Provided by **Igor Dimitrijević** ([*@igorskyflyer*](https://github.com/igorskyflyer/)).
