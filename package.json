@@ -1,48 +1,47 @@
 {
-	"name": "@igor.dvlpr/zep",
-	"version": "5.0.2",
-	"description": "🧠 Zep is a zero-dependency, efficient debounce module. ⏰",
-	"engines": {
-		"node": ">=12.17"
-	},
-	"sideEffects": false,
-	"main": "./src/index.js",
-	"types": "./dist/index",
-	"files": [
-		"dist",
-		"src"
-	],
-	"scripts": {
-		"test": "mocha --timeout 4000",
-		"pub": "npm test && tsc && npm publish --access public"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/igorskyflyer/npm-zep.git"
-	},
-	"keywords": [
-		"zep",
-		"timeout",
-		"interval",
-		"debounce",
-		"throttle",
-		"timer",
-		"igor.dvlpr",
-		"igorskyflyer",
-		"utility"
-	],
-	"author": "Igor Dimitrijević",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/igorskyflyer/npm-zep/issues"
-	},
-	"homepage": "https://github.com/igorskyflyer/npm-zep#readme",
-	"devDependencies": {
-		"@types/chai": "^4.3.1",
-		"@types/mocha": "^9.1.1",
-		"@types/node": "^12.17.0",
-		"chai": "^4.3.6",
-		"mocha": "^10.0.0",
-		"typescript": "^4.7.4"
-	}
+  "name": "@igor.dvlpr/zep",
+  "version": "6.0.0",
+  "description": "🧠 Zep is a zero-dependency, efficient debounce module. ⏰",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.0"
+  },
+  "types": "./dist/index.d.mts",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest --run",
+    "debug": "vitest",
+    "pub": "npm test && npm run build && npm publish --access public"
+  },
+  "keywords": [
+    "utility",
+    "zep",
+    "timeout",
+    "interval",
+    "debounce",
+    "throttle",
+    "timer",
+    "igorskyflyer",
+    "igor.dvlpr"
+  ],
+  "license": "MIT",
+  "author": "Igor Dimitrijević <igor.dvlpr@gmail.com> (https://github.com/igorskyflyer)",
+  "funding": "https://ko-fi.com/igorskyflyer",
+  "homepage": "https://github.com/igorskyflyer/npm-zep",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/igorskyflyer/npm-zep.git"
+  },
+  "bugs": {
+    "url": "https://github.com/igorskyflyer/npm-zep/issues"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.2"
+  }
 }
