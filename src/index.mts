@@ -1,8 +1,8 @@
 // Author: Igor Dimitrijević (@igorskyflyer)
 
-import type { ZepCallback } from './types/ZepCallback.mjs'
-import type { ZepErrorHandler } from './types/ZepErrorHandler.mjs'
-import type { ZepEventHandler } from './types/ZepEventHandler.mjs'
+export type ZepCallback = (...args: any[]) => void
+export type ZepErrorHandler = (error: unknown) => void
+export type ZepEventHandler = () => void
 
 export class Zep {
   #timer: number | NodeJS.Timeout
