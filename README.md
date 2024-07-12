@@ -1,6 +1,6 @@
 <h1 align="center"><code>Zep()</code></h1>
 
-<sub>Your personal (de)bouncer 💪🦸‍♂️</sub>
+<sub align="right">Your personal (de)bouncer 💪🦸‍♂️</sub>
 
 <br>
 
