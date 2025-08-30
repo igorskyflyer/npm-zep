@@ -1,7 +1,7 @@
 // Author: Igor Dimitrijević (@igorskyflyer)
 
 import { assert, describe, test } from 'vitest'
-import { Zep } from '../src/index.mjs'
+import { Zep } from '../src/index.js'
 
 // simulates multiple consecutive calls to a handler
 function simulate(
