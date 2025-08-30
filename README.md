@@ -179,7 +179,7 @@ A handler to call after `Zep()` has finished running, i.e. no more calls to the 
 ---
 
 ```ts
-onError(handler: ZepEventHandler, error: Error): Zep
+onError(handler: ZepErrorHandler): Zep
 ```
 
 A handler to call when an error has occurred during execution.
