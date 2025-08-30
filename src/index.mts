@@ -16,12 +16,12 @@ export class Zep {
   #wasCancelled: boolean
   #wasAborted: boolean
   #callback: ZepCallback
-  #onCancelled: ZepEventHandler
-  #onAborted: ZepEventHandler
-  #onBeforeRun: ZepEventHandler
-  #onAfterRun: ZepEventHandler
-  #onCompleted: ZepEventHandler
-  #onError: ZepErrorHandler
+  #onCancelled?: ZepEventHandler
+  #onAborted?: ZepEventHandler
+  #onBeforeRun?: ZepEventHandler
+  #onAfterRun?: ZepEventHandler
+  #onCompleted?: ZepEventHandler
+  #onError?: ZepErrorHandler
 
   /**
    * Creates a new instance of Zep.
@@ -40,6 +40,13 @@ export class Zep {
     this.#isWaiting = false
     this.#wasCancelled = false
     this.#wasAborted = false
+
+    this.#onCancelled = undefined
+    this.#onAborted = undefined
+    this.#onBeforeRun = undefined
+    this.#onAfterRun = undefined
+    this.#onCompleted = undefined
+    this.#onError = undefined
   }
 
   #deleteTimer() {
@@ -162,6 +169,7 @@ export class Zep {
       percentageSaved = '0'
     }
 
+    // biome-ignore lint/suspicious/noConsole: needed for DX
     console.log(
       `🧠 [Zep]: invocations: ${this.#calls}, callback executions: ${this.#executionCount}, saving ${percentageSaved}% of calls.`
     )
@@ -189,8 +197,6 @@ export class Zep {
       // don't let the execution continue!
       return this
     }
-
-    const self: Zep = this
 
     this.#calls++
 
@@ -235,7 +241,7 @@ export class Zep {
           this.#shouldCancel = false
           this.#wasCancelled = true
 
-          this.#onCancelled.call(self)
+          this.#onCancelled.call(this)
         }
 
         if (typeof this.#onBeforeRun === 'function') {
