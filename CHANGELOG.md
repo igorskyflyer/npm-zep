@@ -1,12 +1,20 @@
-## 📒 Changelog
+# 📒 Changelog
 
-### of [@igor.dvlpr/zep](https://github.com/igorskyflyer/npm-zep)
+### of [@igorskyflyer/zep](https://github.com/igorskyflyer/npm-zep)
 
 <br>
 
-## v6.0.0
+## v6.1.0 (*31-Aug-2025*)
 
-<p align="right"><em>12-Jul-2024</em></p>
+- **✅ fix**: initialize event handlers properly
+- **✅ fix**: remove redundant `this` aliasing
+- **💻 dev**: upgrade Node to >= v22
+- **💻 dev**: upgrade dependencies
+
+<br>
+<br>
+
+## v6.0.0 (*12-Jul-2024*)
 
 - **❌ breaking**: migrate to ESM-only
 - **❌ breaking**: `self: Zep` parameter has been removed from all `Zep` callbacks
