@@ -36,6 +36,7 @@
         "zero-dependency",
         "function-control",
         "execution-control",
+        "debouncer",
         "frontend",
         "backend",
         "igor dimitrijević",
