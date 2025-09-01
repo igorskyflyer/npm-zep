@@ -4,7 +4,7 @@
 
 <br>
 
-## v6.1.0 (*31-Aug-2025*)
+## v6.1.0 (*02-Sep-2025*)
 
 - **✅ fix**: initialize event handlers properly
 - **✅ fix**: remove redundant `this` aliasing
