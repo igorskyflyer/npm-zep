@@ -42,7 +42,7 @@ Standard debounce functions are often *"fire and forget"* and can lead to **Time
 
 **Fluent Interface**: clean, chainable configuration.  
 
-**Dual-mode Termination**: Choose between a graceful `cancel()` or an immediate `abort()`.
+**Dual-mode Termination**: choose between a graceful `cancel()` or an immediate `abort()`.
 
 <br>
 
