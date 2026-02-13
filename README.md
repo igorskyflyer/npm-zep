@@ -6,7 +6,7 @@
 <br>
 
 <h4 align="center">
-  🧠 Zep is a zero-dependency, efficient debounce module. ⏰
+  🧠 <code>Zep</code>: a state-driven, single-timer debounce engine with built-in telemetry. 📉
 </h4>
 
 <br>
@@ -14,8 +14,10 @@
 
 ## 📃 Table of Contents
 
+- [Motivation](#-motivation)
 - [Features](#-features)
 - [Usage](#-usage)
+- [Performance](#-performance)
 - [API](#-api)
 - [Examples](#️-examples)
 - [Changelog](#-changelog)
@@ -25,33 +27,38 @@
 - [Author](#-author)
 
 <br>
+
+## 🎯 Motivation
+
+### 🧠 Why Zep?
+
+Standard debounce functions are often *"fire and forget"* and can lead to **Timer Thrashing** - constantly creating and destroying timers during high-frequency events.  
+
+`Zep` is built as a state machine. It uses a **single-timer** architecture that stays resident only as long as needed, managing execution through internal **state** flags and automatically cleans-up (via `clearInterval()`) when no longer needed.  
+
+**Observability**: automatically calculates the percentage of execution **overhead saved** (e.g. `🧠 [Zep]: invocations: 500, callback executions: 32, saving 93.60% of calls.`).  
+
+**Lifecycle Hooks**: tap into the execution flow with `onBeforeRun()`, `onAfterRun()`, and `onCompleted()`.  
+
+**Fluent Interface**: clean, chainable configuration.  
+
+**Dual-mode Termination**: Choose between a graceful `cancel()` or an immediate `abort()`.
+
 <br>
 
 ## 🤖 Features
 
-- ⚡ Debounce control - smartly limits how often your callback runs
-- 🛑 Cancel support - stop future runs but let the current one finish
-- ⏹ Abort instantly - halt everything, even the running timer
-- 🎯 Event hooks - before, after, completed, cancelled, aborted, error
-- 📊 Stats tracking - logs calls, executions, and % saved
-- ⏳ Wait detection - know when `Zep` is holding off execution
-- 🚦 Run state flags - check if running, waiting, cancelled, or aborted
-- 🛡 Error handling - custom handler for safe callback execution
-- 🔄 Fluent API - chainable `.on()` methods for clean setup
-- 🧩 Flexible timing - works with or without a debounce delay
+- ⚡ **Single-Timer Engine** - eliminates *"timer thrashing"* by using one persistent, state-managed interval instead of spawning hundreds of volatile timeouts
+- 📊 **Built-in Telemetry** - real-time performance tracking. Monitor invocations vs. executions and see exactly how much execution overhead was saved
+- 🚦 **State-Driven Architecture** - fine-grained visibility with isWaiting and isRunning flags, allowing an app to react to the debouncer's internal state
+- 🎯 **Lifecycle Hooks** - a full suite of events (`onBefore`, `onAfter`, `onCompleted`, etc.) to orchestrate complex asynchronous workflows.
+- 🛑 **Dual-Mode Termination** - choose between *Graceful Cancellation* (finishing the current run) or *Immediate Abort* (killing the timer and execution instantly)
+- 🔄 **Fluent API** - chainable configuration for a clean, readable developer experience
+- 🛡 **Zero-Dependency Safety** - no *"black box"* external code. Pure, **TypeScript**-native implementation with built-in error handling
+- 🧩 **Flexible Timing**: handles events with or without delays, maintaining predictable execution
+- 🗑️ **Automated Cleanup** - the single-timer engine intelligently self-terminates when the execution queue is empty, ensuring zero idle CPU usage
+- 🚦 **UX-Ready State** - use the `isWaiting` flag to drive UI feedback (like *"Saving..."* or *"Typing..."*) without needing extra state variables
 
-<br>
-
-> ### ℹ️ NOTE
->
-> #### Why `Zep()`?
->
-> Because `Zep()` allows you to create time-invoked callbacks but with _deferred_ execution! `Zep()` does debouncing in a **very efficient** manner by only creating 1 Timer (\*) - provided by `setInterval`. Some use cases are: when you are processing user input but want to wait until they have finished typing or you are using a 3rd-party API that calls an event handler too often - you can throttle those calls or when your event handler does intensive computing and you want to minimize workload. It limits the rate at which a function/handler can be fired/triggered, thus increasing performance/responsiveness of your product.
->
-
-<sub>\* other debounce functions/modules create dozens, even hundreds of Timers in order to provide the same functionality.</sub>
-
-<br>
 <br>
 
 ## 🕵🏼 Usage
@@ -71,6 +78,17 @@ npm i @igorskyflyer/zep
 ```
 
 <br>
+
+## ⚡ Performance
+
+|     **Feature**    |       **Standard Debounce**        |                     **Zep**                   |
+|:------------------:|:----------------------------------:|:---------------------------------------------:|
+| _Memory Footprint_ |   **High** (new timer per call)    | **Ultra-low** (single persistent timer)       |
+| _Observability_    |       **None** (black box)         |   Built-in **Stats** & **Lifecycle** Hooks    |
+| _Control_          |        **Basic** (`.cancel()`)     |     **Advanced** (`.abort()` vs. `.cancel()`) |
+| _Dependencies_     | Often **bundled** (e.g., *Lodash*) |               **Zero** (0)                    |
+| _Telemetry_        |            **None**                | **Built-in** stats + **console** output       |
+
 <br>
 
 ## 🤹🏼 API
@@ -111,28 +129,6 @@ Creates a new instance of Zep.
 
 - `callback` - the function/callback to debounce.
 - `time` - the time limit (in **ms**) for the debouncing.
-
-<br>
-<br>
-
-`example.ts`
-```ts
-import { Zep } from '@igorskyflyer/zep'
-
-// pass an arrow function
-const zep: Zep = new Zep((value: string) => {
-  // code to limit its execution rate
-}, 1500)
-
-function myFunction(value: string) {
-  /* some code */
-}
-
-// or an existing function
-const zep: Zep = new Zep(myFunction, 1500)
-
-//  You can have as many arguments in your callback function as you want.
-```
 
 ---
 
@@ -269,62 +265,92 @@ wasAborted: boolean
 Indicates whether the execution of `Zep.run()` was aborted. Execution can be aborted by calling [`Zep.abort()`](#zep-abort).
 
 <br>
-<br>
 
 ### 🗒️ Examples
+### 🚀 Basic Setup (Fluent API)
+`Zep`'s chainable methods allow you to configure your logic and lifecycle hooks in a single, readable block.
 
-`zep.ts`
+`zep-basic.ts`
 ```ts
 import { Zep } from '@igorskyflyer/zep'
 
-
-// pass an arrow function
-const zep: Zep = new Zep((value: string) => {
-  // code to limit its execution rate
+const zep: Zep = new Zep((query: string) => {
+  // Your expensive task here
+  console.log(`Searching for: ${query}`)
 }, 1500)
-
-// then pass Zep's run() method to the event instead the original function
-
-// code
-const picker = vscode.window.createQuickPick()
-
-// this is by default triggered each time a user types a character inside the QuickPick
- picker.onDidChangeValue((e: string) => {
-	 zep.run(e)
- }
-
-// due to the nature of JavaScript the following WON'T WORK,
-// when you pass a class method as a parameter that
-// method will get detached from the class and lose its track of <this>,
-// which will be globalThis/undefined, thus resulting in an error,
- picker.onDidChangeValue(zep.run)
-
- // but you could use any of the 2 techniques
-
- // ****
- function changeHandler(): void {
-	 zep.run()
- }
-
- // and then use that wrapper-function
- picker.onDidChangeValue(changeHandler)
-  // ****
-
-	// or
-
-// ****
-const changeHandler: Function = zep.run.bind(zep)
- picker.onDidChangeValue(changeHandler)
-  // ****
-
- // by using Zep we can wait for the user to finish their input
- // if they haven't typed a single letter = the onDidChangeValue wasn't
- // triggered for 1500ms (1.5s) we assume they finished typing
-
-// more code
+  .onBeforeRun(() => showLoadingSpinner())
+  .onAfterRun(() => hideLoadingSpinner())
+  .onCompleted(() => {
+    // Quantify your performance wins in development
+    if (process.env.NODE_ENV === 'development') {
+      zep.writeStats()
+    }
+  })
+  .onError((err) => handleErrors(err))
 ```
 
 <br>
+
+### 💡 Pro-Tip: UI Syncing
+Since `Zep` exposes its internal state, you can bind your UI directly to the debouncer:
+
+`zep-ui.ts`
+```ts
+// Example: Show a spinner only when Zep is waiting to execute
+function renderUI() {
+  myLoadingSpinner.visible = zep.isWaiting;
+}
+```
+
+<br>
+
+### ⌨️ Handling User Input (VS Code QuickPick)
+Perfect for waiting until a user stops typing before triggering heavy operations.
+
+`zep-vscode.ts`
+```ts
+const picker = vscode.window.createQuickPick()
+
+// Cleanest approach: Use an arrow function to preserve 'this' context
+picker.onDidChangeValue((value: string) => zep.run(value))
+```
+
+> [!TIP]
+> Why the arrow function? Because `zep.run` is a class method, passing it directly causes it to lose its this context. Always wrap it in an arrow function or use `.bind(zep)`.
+>
+
+<br>
+
+### 🏎️ Advanced Control: Abort vs. Cancel
+`Zep` gives you granular control over the execution lifecycle that standard debounce wrappers lack.
+
+`zep-advanced.ts`
+```ts
+// Scenario: User closes a UI component before the debounce finishes
+closeButton.onClick(() => {
+  // Option A: cancel() 
+  // Prevents the next execution, but allows the currently running timer to resolve.
+  zep.cancel()
+
+  // Option B: abort() 
+  // Immediate hard stop. Clears the timer and halts execution instantly.
+  zep.abort()
+})
+```
+
+<br>
+
+### 📊 Real-world Telemetry
+Use `writeStats()` to print the currents stats - the overhead saved.
+
+`zep-stats.ts`
+```ts
+zep.writeStats()
+
+// Sample Console Output:
+// 🧠 [Zep]: invocations: 500, callback executions: 32, saving 93.60% of calls.
+```
+
 <br>
 
 ## 📝 Changelog
@@ -332,13 +358,11 @@ const changeHandler: Function = zep.run.bind(zep)
 📑 The changelog is available here, [CHANGELOG.md](https://github.com/igorskyflyer/npm-zep/blob/main/CHANGELOG.md).
 
 <br>
-<br>
 
 ## 🪪 License
 
 Licensed under the MIT license which is available here, [MIT license](https://github.com/igorskyflyer/npm-zep/blob/main/LICENSE).
 
-<br>
 <br>
 
 ## 💖 Support
@@ -355,7 +379,6 @@ Licensed under the MIT license which is available here, [MIT license](https://gi
   <em>Thank you for supporting my efforts!</em> 🙏😊
 </div>
 
-<br>
 <br>
 
 ## 🧬 Related
@@ -388,8 +411,6 @@ Licensed under the MIT license which is available here, [MIT license](https://gi
 
 > _🎍 Provides a universal way of formatting file-paths in Unix-like and Windows operating systems as an alternative to the built-in path.normalize(). 🧬_
 
-<br>
-<br>
 <br>
 
 ## 👨🏻‍💻 Author
