@@ -1,10 +1,10 @@
 {
     "name": "@igorskyflyer/zep",
-    "version": "6.1.0",
-    "description": "🧠 Zep is a zero-dependency, efficient debounce module. ⏰",
+    "version": "6.2.0",
+    "description": "🧠 Zep is a state-driven, single-timer debounce engine with built-in telemetry. 📉",
     "sideEffects": false,
     "engines": {
-        "node": ">=22.0"
+        "node": ">=24.0"
     },
     "type": "module",
     "types": "./dist/index.d.ts",
