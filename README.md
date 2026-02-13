@@ -316,7 +316,8 @@ picker.onDidChangeValue((value: string) => zep.run(value))
 ```
 
 > [!TIP]
-> Why the arrow function? Because `zep.run` is a class method, passing it directly causes it to lose its this context. Always wrap it in an arrow function or use `.bind(zep)`.
+> Why the arrow function?
+> Because `zep.run` is a class method, passing it directly causes it to lose its this context. Always wrap it in an arrow function or use `.bind(zep)`.
 >
 
 <br>
