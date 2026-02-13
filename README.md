@@ -50,7 +50,7 @@ Standard debounce functions are often *"fire and forget"* and can lead to **Time
 
 - ⚡ **Single-Timer Engine** - eliminates *"timer thrashing"* by using one persistent, state-managed interval instead of spawning hundreds of volatile timeouts
 - 📊 **Built-in Telemetry** - real-time performance tracking. Monitor invocations vs. executions and see exactly how much execution overhead was saved
-- 🚦 **State-Driven Architecture** - fine-grained visibility with isWaiting and isRunning flags, allowing an app to react to the debouncer's internal state
+- 🚦 **State-Driven Architecture** - fine-grained visibility with `isWaiting` and `isRunning` flags, allowing an app to react to the debouncer's internal state
 - 🎯 **Lifecycle Hooks** - a full suite of events (`onBefore`, `onAfter`, `onCompleted`, etc.) to orchestrate complex asynchronous workflows.
 - 🛑 **Dual-Mode Termination** - choose between *Graceful Cancellation* (finishing the current run) or *Immediate Abort* (killing the timer and execution instantly)
 - 🔄 **Fluent API** - chainable configuration for a clean, readable developer experience
