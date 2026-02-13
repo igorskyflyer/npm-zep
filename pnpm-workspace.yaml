@@ -1,2 +1,6 @@
 onlyBuiltDependencies:
   - esbuild
+
+overrides:
+  vite@>=7.1.0 <=7.1.10: '>=7.1.11'
+  vite@>=7.1.0 <=7.1.4: '>=7.1.5'
