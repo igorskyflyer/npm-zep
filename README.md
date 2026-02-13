@@ -216,7 +216,9 @@ writeStats(): void
 
 Writes `Zep()` statistical information to the `console`, sample output,
 
-> ` 🧠 [Zep]`: invocations: 500, callback executions: 32, saving of 93.60% calls.
+```text
+ 🧠 [Zep]: invocations: 500, callback executions: 32, saving of 93.60% calls.
+```
 
 ☝ Means that the event was triggered **500** times but `Zep()` debounced it and only executed its handler **32** times instead, the handler was called **93.60%** less than without using `Zep()`.
 
