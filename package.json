@@ -54,14 +54,14 @@
         "url": "https://github.com/igorskyflyer/npm-zep/issues"
     },
     "devDependencies": {
-        "@biomejs/biome": "^2.2.2",
-        "@igorskyflyer/biome-config": "^2.1.0",
-        "@types/node": "^22.18.0",
-        "typescript": "^5.9.2",
-        "vitest": "^3.2.4"
+        "@biomejs/biome": "^2.3.15",
+        "@igorskyflyer/biome-config": "^2.2.0",
+        "@types/node": "^24.10.13",
+        "typescript": "^5.9.3",
+        "vitest": "^4.0.18"
     },
     "publishConfig": {
         "access": "public"
     },
-    "packageManager": "pnpm@10.15.0"
+    "packageManager": "pnpm@10.29.3"
 }
