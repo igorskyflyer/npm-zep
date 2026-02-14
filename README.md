@@ -265,7 +265,7 @@ Indicates whether the execution of `Zep.run()` was aborted. Execution can be abo
 
 <br>
 
-### 🗒️ Examples
+## 🗒️ Examples
 ### 🚀 Basic Setup (Fluent API)
 `Zep`'s chainable methods allow you to configure your logic and lifecycle hooks in a single, readable block.
 
@@ -336,6 +336,44 @@ closeButton.onClick(() => {
   // Option B: abort() 
   // Immediate hard stop. Clears the timer and halts execution instantly.
   zep.abort()
+})
+```
+
+<br>
+
+### 🧹 Resource Management & Cleanup
+Since `Zep` utilizes a resident single-timer to eliminate thrashing, it is a best practice to explicitly destroy the instance when the parent component unmounts. This prevents "ghost" executions and ensures immediate memory release.
+
+<br>
+
+**React (Functional Component)**
+```ts
+useEffect(() => {
+  const zep = new Zep(myCallback, 1000)
+  // ... logic
+  return () => zep.abort() // Immediate hard-stop on unmount
+}, [])
+```
+
+<br>
+
+**Svelte**
+```ts
+import { onDestroy } from 'svelte'
+
+const zep = new Zep(myCallback, 1000)
+
+onDestroy(() => {
+  zep.abort()
+})
+```
+
+<br>
+
+**Visual Studio Code Extension**
+```ts
+context.subscriptions.push({
+  dispose: () => zep.abort()
 })
 ```
 
