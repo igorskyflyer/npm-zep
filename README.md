@@ -14,35 +14,32 @@
 
 ## 📃 Table of Contents
 
-- [Motivation](#-motivation)
-- [Features](#-features)
-- [Usage](#-usage)
-- [Performance](#-performance)
-- [API](#-api)
-- [Examples](#️-examples)
-- [Changelog](#-changelog)
-- [Support](#-support)
-- [License](#-license)
-- [Related](#-related)
-- [Author](#-author)
+- [**Motivation**](#-motivation)
+- [**Features**](#-features)
+- [**Usage**](#-usage)
+- [**Performance**](#-performance)
+- [**API**](#-api)
+- [**Examples**](#️-examples)
+- [**Changelog**](#-changelog)
+- [**Support**](#-support)
+- [**License**](#-license)
+- [**Related**](#-related)
+- [**Author**](#-author)
 
 <br>
 
 ## 🎯 Motivation
 
-### 🧠 Why Zep?
+### Why `Zep`? ⚡
 
-Standard debounce functions are often *"fire and forget"* and can lead to **Timer Thrashing** - constantly creating and destroying timers during high-frequency events.  
+Standard debounce functions are typically **"fire and forget,"** often leading to **Timer Thrashing** - the constant creation and destruction of timers during high-frequency events.
 
-`Zep` is built as a state machine. It uses a **single-timer** architecture that stays resident only as long as needed, managing execution through internal **state** flags and automatically cleans-up (via `clearInterval()`) when no longer needed.  
+`Zep` is engineered as a **State Machine**. It utilizes a **single-timer architecture** that remains resident only while active, managing execution through internal state flags and triggering an automatic **cleanup** (via `clearInterval()`) the moment it's no longer needed.
 
-**Observability**: automatically calculates the percentage of execution **overhead saved** (e.g. `🧠 [Zep]: invocations: 500, callback executions: 32, saving 93.60% of calls.`).  
-
-**Lifecycle Hooks**: tap into the execution flow with `onBeforeRun()`, `onAfterRun()`, and `onCompleted()`.  
-
-**Fluent Interface**: clean, chainable configuration.  
-
-**Dual-mode Termination**: choose between a graceful `cancel()` or an immediate `abort()`.
+- **Observability:** Built-in telemetry calculates the exact **efficiency gain** (e.g., `🧠 [Zep]: 500 invocations, 32 executions, saving 93.60% overhead`).
+- **Lifecycle Hooks:** Precise control over the execution flow with `onBeforeRun()`, `onAfterRun()`, and `onCompleted()`.
+- **Fluent Interface:** Clean, chainable API for declarative configuration.
+- **Dual-mode Termination:** Choose between a graceful `cancel()` or an immediate `abort()`.
 
 <br>
 
