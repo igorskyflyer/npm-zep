@@ -14,21 +14,21 @@
 
 ## 📃 Table of Contents
 
-- [**Motivation**](#-motivation)
-- [**Features**](#-features)
-- [**Usage**](#-usage)
-- [**Performance**](#-performance)
-- [**API**](#-api)
-- [**Examples**](#️-examples)
-- [**Changelog**](#-changelog)
-- [**Support**](#-support)
-- [**License**](#-license)
-- [**Related**](#-related)
-- [**Author**](#-author)
+- [**Motivation**](#motivation)
+- [**Features**](#features)
+- [**Usage**](#usage)
+- [**Performance**](#performance)
+- [**API**](#api)
+- [**Examples**](#examples)
+- [**Changelog**](#changelog)
+- [**Support**](#support)
+- [**License**](#license)
+- [**Related**](#related)
+- [**Author**](#author)
 
 <br>
 
-## 🎯 Motivation
+## Motivation
 
 ### Why `Zep`? ⚡
 
@@ -43,7 +43,7 @@ Standard debounce functions are typically **"fire and forget,"** often leading t
 
 <br>
 
-## 🤖 Features
+## Features
 
 - ⚡ **Single-Timer Engine** - eliminates *"timer thrashing"* by using one persistent, state-managed interval instead of spawning hundreds of volatile timeouts
 - 📊 **Built-in Telemetry** - real-time performance tracking. Monitor invocations vs. executions and see exactly how much execution overhead was saved
@@ -58,7 +58,7 @@ Standard debounce functions are typically **"fire and forget,"** often leading t
 
 <br>
 
-## 🕵🏼 Usage
+## Usage
 
 Install it by executing any of the following, depending on your preferred package manager:
 
@@ -76,7 +76,7 @@ npm i @igorskyflyer/zep
 
 <br>
 
-## ⚡ Performance
+## Performance
 
 |     **Feature**    |       **Standard Debounce**        |                     **Zep**                   |
 |:------------------:|:----------------------------------:|:---------------------------------------------:|
@@ -88,7 +88,7 @@ npm i @igorskyflyer/zep
 
 <br>
 
-## 🤹🏼 API
+## API
 
 ### Types
 
@@ -265,7 +265,7 @@ Indicates whether the execution of `Zep.run()` was aborted. Execution can be abo
 
 <br>
 
-## 🗒️ Examples
+## Examples
 ### 🚀 Basic Setup (Fluent API)
 `Zep`'s chainable methods allow you to configure your logic and lifecycle hooks in a single, readable block.
 
@@ -392,19 +392,19 @@ zep.writeStats()
 
 <br>
 
-## 📝 Changelog
+## Changelog
 
 📑 The changelog is available here, [CHANGELOG.md](https://github.com/igorskyflyer/npm-zep/blob/main/CHANGELOG.md).
 
 <br>
 
-## 🪪 License
+## License
 
 Licensed under the MIT license which is available here, [MIT license](https://github.com/igorskyflyer/npm-zep/blob/main/LICENSE).
 
 <br>
 
-## 💖 Support
+## Support
 
 <div align="center">
   I work hard for every project, including this one and your support means a lot to me!
@@ -420,7 +420,7 @@ Licensed under the MIT license which is available here, [MIT license](https://gi
 
 <br>
 
-## 🧬 Related
+## Related
 
 [@igorskyflyer/scrollend-polyfill](https://www.npmjs.com/package/@igorskyflyer/scrollend-polyfill)
 
@@ -452,5 +452,5 @@ Licensed under the MIT license which is available here, [MIT license](https://gi
 
 <br>
 
-## 👨🏻‍💻 Author
+## Author
 Created by **Igor Dimitrijević** ([*@igorskyflyer*](https://github.com/igorskyflyer/)).
