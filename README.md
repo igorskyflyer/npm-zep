@@ -14,17 +14,16 @@
 
 ## 📃 Table of Contents
 
-- [**Motivation**](#motivation)
-- [**Features**](#features)
-- [**Usage**](#usage)
-- [**Performance**](#performance)
-- [**API**](#api)
-- [**Examples**](#examples)
-- [**Changelog**](#changelog)
-- [**Support**](#support)
-- [**License**](#license)
-- [**Related**](#related)
-- [**Author**](#author)
+- 🎯 [**Motivation**](#motivation)
+- 🤖 [**Features**](#features)
+- 🕵🏼 [**Usage**](#usage)
+- 📊 [**Performance**](#performance)
+- 🤹🏼 [**API**](#api)
+- 🚀 [**Examples**](#examples)
+- 📝 [**Changelog**](#changelog)
+- 🪪 [**License**](#license)
+- 💖 [**Support**](#support)
+- 👨🏻‍💻 [**Author**](#author)
 
 <br>
 
