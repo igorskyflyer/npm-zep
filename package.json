@@ -4,7 +4,7 @@
     "description": "🧠 Zep is a state-driven, single-timer debounce engine with built-in telemetry. 📉",
     "sideEffects": false,
     "engines": {
-        "node": ">=24.0"
+        "node": ">=22.0"
     },
     "type": "module",
     "types": "./dist/index.d.ts",
@@ -56,7 +56,7 @@
     "devDependencies": {
         "@biomejs/biome": "^2.3.15",
         "@igorskyflyer/biome-config": "^2.2.0",
-        "@types/node": "^24.10.13",
+        "@types/node": "^22.19.11",
         "typescript": "^5.9.3",
         "vitest": "^4.0.18"
     },
