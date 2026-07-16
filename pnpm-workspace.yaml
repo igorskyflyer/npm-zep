@@ -1,6 +1,15 @@
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@igorskyflyer/biome-config@3.0.0 || 3.0.2'
+  - '@igorskyflyer/tsconfig@2.0.1'
+
 onlyBuiltDependencies:
   - esbuild
 
 overrides:
-  vite@>=7.1.0 <=7.1.10: '>=7.1.11'
-  vite@>=7.1.0 <=7.1.4: '>=7.1.5'
+  picomatch@>=4.0.0 <4.0.4: '>=4.0.4'
+  postcss@<8.5.10: ^8.5.10
+  rollup@>=4.0.0 <4.59.0: '>=4.59.0'
+  vite: '>=7.3.5'
