@@ -1,67 +1,78 @@
 {
-    "name": "@igorskyflyer/zep",
-    "version": "6.2.0",
-    "description": "🧠 Zep is a state-driven, single-timer debounce engine with built-in telemetry. 📉",
-    "sideEffects": false,
-    "engines": {
-        "node": ">=22.0"
-    },
-    "type": "module",
-    "types": "./dist/index.d.ts",
-    "main": "./dist/index.js",
-    "module": "./dist/index.js",
-    "files": [
-        "dist"
-    ],
-    "scripts": {
-        "build": "tsc",
-        "test": "vitest --run",
-        "pub": "pnpm test && git push origin main --tags"
-    },
-    "keywords": [
-        "utility",
-        "zep",
-        "timeout",
-        "interval",
-        "debounce",
-        "throttle",
-        "rate-limit",
-        "timer",
-        "callback-control",
-        "event-handler",
-        "performance",
-        "utility",
-        "javascript",
-        "typescript",
-        "zero-dependency",
-        "function-control",
-        "execution-control",
-        "debouncer",
-        "frontend",
-        "backend",
-        "igor dimitrijević",
-        "igorskyflyer"
-    ],
-    "license": "MIT",
-    "author": "Igor Dimitrijević <support@igorskyflyer.me> (https://github.com/igorskyflyer)",
-    "funding": "https://ko-fi.com/igorskyflyer",
-    "homepage": "https://github.com/igorskyflyer/npm-zep",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/igorskyflyer/npm-zep.git"
-    },
-    "bugs": {
-        "url": "https://github.com/igorskyflyer/npm-zep/issues"
-    },
-    "devDependencies": {
-        "@biomejs/biome": "^2.3.15",
-        "@igorskyflyer/biome-config": "^2.2.0",
-        "@types/node": "^22.19.11",
-        "typescript": "^5.9.3",
-        "vitest": "^4.0.18"
-    },
-    "publishConfig": {
-        "access": "public"
-    },
-    "packageManager": "pnpm@10.29.3"
+  "name": "@igorskyflyer/zep",
+  "version": "7.0.0-alpha",
+  "description": "Zep is a zero-dependency, state-driven, single-timer debounce library for JavaScript and TypeScript with built-in execution telemetry.",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=24.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.6",
+    "@igorskyflyer/biome-config": "^3.0.3",
+    "@igorskyflyer/tsconfig": "^2.0.1",
+    "@types/node": "^24.13.3",
+    "@vitest/coverage-v8": "^4.1.10",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest --run --passWithNoTests",
+    "test:coverage": "vitest run --coverage",
+    "pub": "pnpm test && pnpm build && git push origin main --tags"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "pnpm@11.20.0",
+  "private": false,
+  "license": "MIT",
+  "author": "Igor Dimitrijević <support@igorskyflyer.me> (https://github.com/igorskyflyer)",
+  "funding": "https://ko-fi.com/igorskyflyer",
+  "homepage": "https://github.com/igorskyflyer/npm-zep",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/igorskyflyer/npm-zep.git"
+  },
+  "bugs": {
+    "url": "https://github.com/igorskyflyer/npm-zep/issues"
+  },
+  "keywords": [
+    "utility",
+    "zep",
+    "timeout",
+    "interval",
+    "debounce",
+    "throttle",
+    "rate-limit",
+    "timer",
+    "callback-control",
+    "event-handler",
+    "performance",
+    "utility",
+    "javascript",
+    "typescript",
+    "zero-dependency",
+    "function-control",
+    "execution-control",
+    "debouncer",
+    "frontend",
+    "backend",
+    "igor dimitrijević",
+    "igorskyflyer"
+  ]
 }
