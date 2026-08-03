@@ -460,7 +460,8 @@ context.subscriptions.push(zep)
 
 > [!TIP]
 > `[Symbol.dispose]()` vs `abort()`
-> Use `zep.[Symbol.dispose]()` for unmounting/cleanup to silently purge timers and clear memory.  Use `zep.abort()` if you specifically want to halt execution and fire the `onAborted` life-cycle hook.  
+>
+> Use `zep.[Symbol.dispose]()` for unmounting/cleanup to silently purge timers and clear memory. Use `zep.abort()` if you specifically want to halt execution and fire the `onAborted` life-cycle hook.  
 
 <br>
 
