@@ -52,14 +52,27 @@
 
 ## Benchmark
 
-| Task Name | Avg Latency (ns) | Median Latency (ns) | Avg Throughput (ops/s) | Median Throughput (ops/s) | Samples |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| Instantiation: `lodash.debounce` | 64.61 ± 2.02% | 100.00 ± 0.00 | 12,165,240 ± 0.01% | 10,000,000 ± 0 | 15,477,023 |
-| Instantiation: `debounce` | 983.69 ± 13.59% | 400.00 ± 0.00 | 2,331,392 ± 0.03% | 2,500,000 ± 0 | 1,019,509 |
-| Instantiation: `Zep` | 40.51 ± 0.07% | 0.00 ± 0.00 | 18,774,455 ± 0.02% | 24,685,234 ± 0 | 24,685,236 |
-| Invocation Burst (1000x): `lodash.debounce` | 62,915 ± 2.01% | 61,100 ± 600.00 | 16,250 ± 0.08% | 16,367 ± 159 | 15,895 |
-| Invocation Burst (1000x): `debounce` | 62,292 ± 0.40% | 61,300 ± 600.00 | 16,229 ± 0.08% | 16,313 ± 161 | 16,054 |
-| Invocation Burst (1000x): `Zep` | 61,332 ± 0.38% | 60,600 ± 600.00 | 16,475 ± 0.08% | 16,502 ± 165 | 16,305 |
+#### Instantiation Overhead
+
+| Task | Latency (ns) | Throughput (ops/s) | Samples |
+| :--- | :--- | :--- | :--- |
+| `lodash.debounce` | 64.61 ± 2.02% | 12,165,240 ± 0.01% | 15,477,023 |
+| `debounce` | 983.69 ± 13.59% | 2,331,392 ± 0.03% | 1,019,509 |
+| **`Zep`** | **40.51 ± 0.07%** | **18,774,455 ± 0.02%** | **24,685,236** |
+
+<br>
+
+#### Invocation Burst (1,000 Calls)
+
+| Task | Latency (ns) | Throughput (ops/s) | Samples |
+| :--- | :--- | :--- | :--- |
+| `lodash.debounce` | 62,915 ± 2.01% | 16,250 ± 0.08% | 15,895 |
+| `debounce` | 62,292 ± 0.40% | 16,229 ± 0.08% | 16,054 |
+| **`Zep`** | **61,332 ± 0.38%** | **16,475 ± 0.08%** | **16,305** |
+
+<br>
+
+\* *Benchmarked on AMD Ryzen 7 5825U using tinybench, on Node v26.5.1.*
 
 <br>
 
@@ -234,7 +247,7 @@ writeStats(): void
 
 Writes `Zep` statistical information to the `console`, sample output:
 
-```text
+```
 🧠 [Zep Metrics Report]
 ├── Invocations  : 48
 ├── Executions   : 1 (97.92% saved)
@@ -333,48 +346,6 @@ Indicates whether the execution of `Zep.run()` was aborted. Execution can be abo
 
 <br>
 
-**Properties**
-
-```ts
-executionCount: number
-```
-
-Returns the number of callback executions.
-
----
-
-```ts
-isWaiting: boolean
-```
-
-Indicates whether `Zep` is waiting for a Timer to finish its execution, if `true`, `Zep.run()` won't create new Timers when called.
-
----
-
-```ts
-isRunning: boolean
-```
-
-Indicates whether a Timer is currently running the `callback` provided in the constructor.
-
----
-
-```ts
-wasCancelled: boolean
-```
-
-Indicates whether the execution of `Zep.run()` was cancelled. Execution can be cancelled by calling [`Zep.cancel()`](#zep-cancel).
-
----
-
-```ts
-wasAborted: boolean
-```
-
-Indicates whether the execution of `Zep.run()` was aborted. Execution can be aborted by calling [`Zep.abort()`](#zep-abort).
-
-<br>
-
 ## Examples
 ### 🚀 Basic Setup (Fluent API)
 `Zep`'s chainable methods allow you to configure your logic and life-cycle hooks in a single, readable block.
@@ -383,7 +354,7 @@ Indicates whether the execution of `Zep.run()` was aborted. Execution can be abo
 ```ts
 import { Zep } from '@igorskyflyer/zep'
 
-const zep: Zep = new Zep((query: string) => {
+const zep = new Zep((query: string) => {
   // Your expensive task here
   console.log(`Searching for: ${query}`)
 }, 1500)
@@ -497,7 +468,12 @@ Use `writeStats()` to print the currents stats - the overhead saved.
 zep.writeStats()
 
 // Sample Console Output:
-// 🧠 [Zep]: invocations: 500, callback executions: 32, saving 93.60% of calls.
+// 🧠 [Zep Metrics Report]
+// ├── Invocations  : 500
+// ├── Executions   : 32 (93.60% saved)
+// ├── Active Burst : 0 pending
+// ├── Peak Burst   : 48 max squashed
+// └── Terminations : 0 cancels, 0 aborts
 ```
 
 <br>
