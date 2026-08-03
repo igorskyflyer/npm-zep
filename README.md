@@ -423,7 +423,7 @@ closeButton.onClick(() => {
 <br>
 
 ### 🧹 Resource Management & Cleanup
-Since `Zep` utilizes a resident single-timer to eliminate thrashing, it is a best practice to explicitly destroy the instance when the parent component unmounts. This prevents "ghost" executions and ensures immediate memory release.
+Since `Zep` utilizes a resident single-timer to eliminate thrashing, explicitly disposing of the instance when a parent component unmounts prevents ghost executions and releases memory[cite: 3]. `Zep` natively supports `[Symbol.dispose]()` for silent, side-effect-free teardown[cite: 3, 4].
 
 <br>
 
@@ -432,7 +432,7 @@ Since `Zep` utilizes a resident single-timer to eliminate thrashing, it is a bes
 useEffect(() => {
   const zep = new Zep(myCallback, 1000)
   // ... logic
-  return () => zep.abort() // Immediate hard-stop on unmount
+  return () => zep[Symbol.dispose]() // Silent cleanup on unmount
 }, [])
 ```
 
@@ -445,18 +445,22 @@ import { onDestroy } from 'svelte'
 const zep = new Zep(myCallback, 1000)
 
 onDestroy(() => {
-  zep.abort()
+  zep[Symbol.dispose]()
 })
 ```
 
 <br>
 
 **Visual Studio Code Extension**
+
 ```ts
-context.subscriptions.push({
-  dispose: () => zep.abort()
-})
+// Direct compatibility with VS Code Disposable objects
+context.subscriptions.push(zep)
 ```
+
+> [!TIP]
+> `[Symbol.dispose]()` vs `abort()`
+> Use `zep.[Symbol.dispose]()` for unmounting/cleanup to silently purge timers and clear memory.  Use `zep.abort()` if you specifically want to halt execution and fire the `onAborted` life-cycle hook.  
 
 <br>
 
