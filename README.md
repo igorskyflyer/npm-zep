@@ -423,7 +423,7 @@ closeButton.onClick(() => {
 <br>
 
 ### 🧹 Resource Management & Cleanup
-Since `Zep` utilizes a resident single-timer to eliminate thrashing, explicitly disposing of the instance when a parent component unmounts prevents ghost executions and releases memory[cite: 3]. `Zep` natively supports `[Symbol.dispose]()` for silent, side-effect-free teardown[cite: 3, 4].
+Since `Zep` utilizes a resident single-timer to eliminate thrashing, explicitly disposing of the instance when a parent component unmounts prevents ghost executions and releases memory. `Zep` natively supports `[Symbol.dispose]()` for silent, side-effect-free teardown.
 
 <br>
 
