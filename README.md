@@ -135,7 +135,7 @@ constructor(callback: ZepCallback<T>, time?: number): Zep<T>
 Creates a new instance of `Zep`.
 
 - `callback` - the function/callback to debounce.
-- `time` - the time limit (in **ms**) for the debouncing.
+- `time` - the time limit (in **ms**) for the debouncing. Defaults to `150ms`.
 
 ---
 
@@ -245,7 +245,7 @@ Runs the callback defined in the constructor if necessary or else debounces it.
 writeStats(): void
 ```
 
-Writes `Zep` statistical information to the `console`, sample output:
+Writes `Zep`'s statistical information to the `console`, including invocations, executions, saved call percentage, active/peak burst metrics, and cancellation/abort counts.
 
 ```
 🧠 [Zep Metrics Report]
@@ -461,7 +461,7 @@ context.subscriptions.push(zep)
 > [!TIP]
 > `[Symbol.dispose]()` vs `abort()`
 >
-> Use `zep[Symbol.dispose]()` for unmounting/cleanup to silently purge timers and clear memory. Use `zep.abort()` if you specifically want to halt execution and fire the `onAborted` life-cycle hook.  
+> Use `zep[Symbol.dispose]()` for unmounting/cleanup to silently purge timers and clear memory. Use `zep.abort()` if you specifically want to halt execution and fire the `onAborted` life-cycle hook.
 
 <br>
 
