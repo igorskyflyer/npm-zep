@@ -20,7 +20,7 @@
 ## v6.1.0 – *2025-Sep-02*
 
 **Fixes**
-- 🔨 **logic**: initialize event handlers properly
+- 🔨 **logic**: update event handlers with proper initialization
 - 🔨 **logic**: remove redundant `this` aliasing
 
 <br>
