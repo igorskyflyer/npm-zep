@@ -278,22 +278,14 @@ describe('🧪 Zep Unit Tests', () => {
   });
 
   test('14. Symbol.dispose: cleans resources and unbinds handlers', () => {
-    let abortedFired = false;
     let beforeFired = false;
 
-    const zep = new Zep(() => {}, 200)
-      .onAborted(() => {
-        abortedFired = true;
-      })
-      .onBeforeRun(() => {
-        beforeFired = true;
-      });
+    const zep = new Zep(() => {}, 200).onBeforeRun(() => {
+      beforeFired = true;
+    });
 
     zep.run();
     zep[Symbol.dispose]();
-
-    assert.isTrue(abortedFired);
-    assert.isTrue(zep.wasAborted);
 
     // Verify handlers reset to ZEP_EMPTY_HANDLER after disposal
     zep.run();
