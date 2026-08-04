@@ -4,7 +4,8 @@
 
 ## v7.0.0-alpha – *2026-Aug-04*
 
-### N/A
+**Features**
+- 🔨 logic: update core architecture
 
 <br>
 
