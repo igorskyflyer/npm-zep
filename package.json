@@ -1,6 +1,6 @@
 {
   "name": "@igorskyflyer/zep",
-  "version": "7.0.0-alpha",
+  "version": "7.0.0-alpha.0",
   "description": "Zep is a zero-dependency, state-driven, single-timer debounce library for JavaScript and TypeScript with built-in execution telemetry.",
   "type": "module",
   "sideEffects": false,
