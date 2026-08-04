@@ -2,7 +2,7 @@
 
 ### of [**@igorskyflyer/zep**](https://github.com/igorskyflyer/npm-zep)
 
-## v7.0.0-alpha – *2026-Aug-04*
+## v7.0.0-alpha.0 – *2026-Aug-04*
 
 **Features**
 - 🔨 logic: update core architecture
